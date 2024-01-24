@@ -16,7 +16,3 @@ body {
 img {
   -webkit-user-drag: none;
 }
-
-/* before:absolute before:bottom-0 before:border-b-2 before:border-primary*/
-
-/* relative before:-inset-1 before:absolute before:hover:border-b-2  before:hover:border-primaryHover before:bottom-0 */
