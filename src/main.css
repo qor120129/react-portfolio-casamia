@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Rokkitt:wght@500;600&family=Signika:wght@500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply text-main
+}
+
+@layer base {
+  a[aria-current='page'] {
+    @apply text-primary font-semibold
+  }
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+/* before:absolute before:bottom-0 before:border-b-2 before:border-primary*/
+
+/* relative before:-inset-1 before:absolute before:hover:border-b-2  before:hover:border-primaryHover before:bottom-0 */
