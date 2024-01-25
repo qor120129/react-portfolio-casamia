@@ -10,10 +10,10 @@ const footerNavigation = [
 
 const Footer = () => {
   return (
-    <footer className='border-t'>
+    <footer className='border-t py-12'>
       <div className='px-4 max-w-[80rem] m-auto'>
         <Link to="/">
-          <h1 className='font-[Rokkitt] text-main text-3xl py-3'>casamia</h1>
+          <h1 className='font-[Rokkitt] text-main text-3xl pb-3'>casamia</h1>
         </Link>
         <div className='flex flex-wrap gap-y-6 text-[0.75rem] justify-between max-lg:gap-y-0 relative'>
           <div className='*:pr-6 flex flex-wrap max-w-[44.6rem] *:flex *:items-center text-sub gap-y-1 

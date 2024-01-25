@@ -12,6 +12,8 @@ export default defineConfig({
       "pages": path.resolve(__dirname, "src/pages"),
       "components": path.resolve(__dirname, "src/components"),
       "layout": path.resolve(__dirname, "src/layout"),
+      "assets": path.resolve(__dirname, "src/assets"),
+      "firebaseApp": path.resolve(__dirname, "firebaseApp"),
     }
   },
 })

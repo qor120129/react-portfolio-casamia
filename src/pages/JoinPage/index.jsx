@@ -1,8 +1,8 @@
-import React from 'react'
+import JoinForm from 'components/JoinForm'
 
 const JoinPage = () => {
   return (
-    <div>JoinPage</div>
+    <JoinForm />
   )
 }
 

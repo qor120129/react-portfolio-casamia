@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import app from 'firebaseApp'
+import { getAuth, signOut } from 'firebase/auth'
+import { toast } from 'react-toastify'
 
 const navigation = [
   { name: '거실가구', to: '/Living' },
@@ -11,7 +14,20 @@ const navigation = [
   { name: '매장찾기', to: '/Store' },
 ]
 
-const Header = () => {
+const Header = ({ auth, isAuth }) => {
+  const name = auth?.currentUser?.email.substring(0, auth.currentUser.email.indexOf('@'))
+
+  const onSignOut = async () => {
+    try {
+      const auth = getAuth(app)
+      await signOut(auth)
+      toast.success('로그아웃 되었습니다.', {
+        position: "top-center",
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <header className='border-b '>
@@ -30,7 +46,7 @@ const Header = () => {
                 name="price"
                 id="price"
                 className="block w-full rounded-md py-1.5 pl-7 pr-20 border text-main ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                placeholder="검색어를 입력하세요."
+                placeholder="검색-어를 입력하세요."
               />
               <button className='absolute right-4 top-1/2 -translate-y-1/2'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
@@ -44,12 +60,20 @@ const Header = () => {
               </svg>
 
             </Link>
-            <Link to="/login">
-              로그인
-            </Link>
-            <Link to="/join">
-              회원가입
-            </Link>
+            {isAuth
+              ?
+              <>
+                <span>{name}</span>
+                <button type="button" className='hover:text-primaryHover hover:underline' onClick={onSignOut} >
+                  로그아웃
+                </button>
+              </>
+              :
+              <>
+                <Link to="/login">로그인</Link>
+                <Link to="/join">회원가입</Link>
+              </>
+            }
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import banner1 from '@/assets/img/banner5.jpg'
-import banner2 from '@/assets/img/banner8.jpg'
-import banner3 from '@/assets/img/banner6.jpg'
-import banner4 from '@/assets/img/banner7.jpg'
+import banner1 from '@/assets/img/banner1.jpg'
+import banner2 from '@/assets/img/banner2.jpg'
+import banner3 from '@/assets/img/banner3.jpg'
+import banner4 from '@/assets/img/banner4.jpg'
 
 
 const bannerSlide = [
@@ -20,13 +20,12 @@ const Banner = () => {
 
   const resetTimeout = () => {
     setDragMove(false)
-    console.log('false;')
-
+    // console.log('false;')
     clearTimeout(timeOutRef.current);
   }
 
   const startTimeout = () => {
-    console.log('true;')
+    // console.log('true;')
     timeOutRef.current = setTimeout(() => {
       setDragMove(true)
       activeImage === bannerSlide.length - 1 ? setActiveImage(0) : setActiveImage(activeImage + 1)
