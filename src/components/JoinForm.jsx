@@ -1,16 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from "react-toastify"
 import ErrorMsg from 'components/ErrorMsg'
-import app from "firebaseApp"
+import { app, database } from "firebaseApp"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
+import { ref, child, get, set, push, query, onValue, } from "firebase/database"
+
 const JoinForm = () => {
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [usersDB, setUsersDB] = useState([])
   const navigate = useNavigate()
-  
+
+
+  useEffect(() => {
+    const userList = query(ref(database, 'users'))
+    onValue(userList, (snapshot) => {
+      if(snapshot.exists()){
+        const data = snapshot.val()
+        setUsersDB(Object.values(data))
+      }
+    })
+  }, [])
+
+
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -19,10 +34,21 @@ const JoinForm = () => {
       toast.success('회원가입에 성공했습니다.', {
         position: "top-center",
       })
+      writeUserData(email, password)
       navigate("/")
     } catch (error) {
-      toast.error(error?.message)
+      console.log(error.message)
     }
+  }
+
+  const writeUserData = (email, password) => {
+    const postListRef = ref(database, 'users')
+    const newPostRef = push(postListRef)
+    set(newPostRef, {
+      username: email.substring(0, email.indexOf('@')),
+      email: email,
+      password: password
+    })
   }
 
   const changeValue = (e) => {
@@ -35,13 +61,20 @@ const JoinForm = () => {
       //  이메일 정규식
       const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
 
+
       if (!value.match(regexEmail)) {
         setError('이메일 형식이 올바르지 않습니다.')
       } else {
         setError('')
       }
+      if (value.match(regexEmail)) {
+        usersDB.filter((item) => {
+          if (item.email === value) {
+            return setError('이미 사용중인 이메일 입니다.')
+          }
+        })
+      }
     }
-
     // 비밀번호
     if (name === 'password') {
       setPassword(value)
@@ -66,6 +99,7 @@ const JoinForm = () => {
       }
     }
   }
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

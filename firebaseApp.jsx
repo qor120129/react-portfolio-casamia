@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-
+import { getDatabase } from "firebase/database";
 
 // Initialize Firebase
 
@@ -11,6 +11,7 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_REACT_APP_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_REACT_APP_API_ID,
   measurementId: import.meta.env.VITE_REACT_APP_MEASUREMENT_ID,
+  databaseURL: `https://react-casamia-default-rtdb.asia-southeast1.firebasedatabase.app/`
 }
-const app = initializeApp(firebaseConfig)
-export default app
+export const app = initializeApp(firebaseConfig)
+export const database = getDatabase(app)

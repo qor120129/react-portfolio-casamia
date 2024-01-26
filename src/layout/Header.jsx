@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import app from 'firebaseApp'
 import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 
@@ -19,7 +18,7 @@ const Header = ({ auth, isAuth }) => {
 
   const onSignOut = async () => {
     try {
-      const auth = getAuth(app)
+      // const auth = getAuth(app)
       await signOut(auth)
       toast.success('로그아웃 되었습니다.', {
         position: "top-center",

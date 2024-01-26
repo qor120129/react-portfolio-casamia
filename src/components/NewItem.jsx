@@ -11,6 +11,8 @@ import newItem5 from 'assets/img/new5.jpg'
 import newItem6 from 'assets/img/new6.jpg'
 import newItem7 from 'assets/img/new7.jpg'
 import newItem8 from 'assets/img/new8.jpg'
+import { getAuth } from 'firebase/auth';
+import { app } from 'firebaseApp';
 
 const newItems = [
   { img: newItem1, brand: 'casamia', title: '캄포 슬림 4인 카우치소파 BL', price: '3,580,000', SalePrice: '', percent: '' },
@@ -24,6 +26,7 @@ const newItems = [
 ]
 
 const NewItem = () => {
+  const auth = getAuth(app)
   return (
     <section className='max-w-[80rem] m-auto px-4 py-12'>
       <h2 className='uppercase font-semibold text-lg py-4'>new item <span>이달의 신제품</span></h2>
@@ -60,7 +63,7 @@ const NewItem = () => {
                 src={itme.img} alt={itme.brand + itme.title + itme.price + ' 원'}
               />
             </div>
-            <div className='flex flex-col justify-between py-4 px-2 min-h-[150px]'>
+            <div className='flex flex-col justify-between py-4 px-2 min-h-[145px]'>
               <h4>{itme.brand}</h4>
               <h3 className='font-medium mt-1 truncate'>{itme.title}</h3>
               <div className='flex flex-col flex-1 justify-end realtive'>
@@ -92,9 +95,6 @@ const NewItem = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <div class="bannerPrev prev"></div>
-      <div class="bannerNext next"></div>
-      <div class="swiper-scrollbar"></div> */}
     </section >
   )
 }

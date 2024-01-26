@@ -6,29 +6,33 @@ import NotFound from 'pages/NotFound'
 import StorePage from 'pages/StorePage'
 import LivingPage from 'pages/LivingPage'
 import LoginPage from 'pages/LoginPage'
-import CartPage from './pages/CartPage'
-import JoinPage from './pages/JoinPage'
+import CartPage from 'pages/CartPage'
+import JoinPage from 'pages/JoinPage'
 import 'react-toastify/dist/ReactToastify.css'
 import { useEffect, useState } from 'react'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import app from 'firebaseApp'
+import { app } from 'firebaseApp'
+import Loader from 'components/Loader'
 
 
 function App() {
   const auth = getAuth(app)
   const [isAuth, setIsAuth] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
+      console.log(isLoading)
       if (user) {
         setIsAuth(true)
       } else {
         setIsAuth(false)
       }
-      // setInit(true)
     })
-  })
+  }, [])
+
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -71,7 +75,10 @@ function App() {
   return (
     <>
       <ToastContainer autoClose={1000} limit={3} />
-      <RouterProvider router={router} auth={auth} isAuth={isAuth} />
+      {isLoading
+        ? <RouterProvider router={router} auth={auth} isAuth={isAuth} />
+        : <Loader className={'w-20'} />
+      }
     </>
   )
 }

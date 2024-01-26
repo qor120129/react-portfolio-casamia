@@ -2,7 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import app from 'firebaseApp'
+import {app} from 'firebaseApp'
 
 const LoginForm = () => {
   // const [error, setError] = useState('')
@@ -21,7 +21,7 @@ const LoginForm = () => {
       });
 
       navigate("/")
-      
+
     } catch (error) {
       if (error.message === 'INVALID_EMAIL') {
         toast.error('잘못된 이메일입니다. 이메일을 확인해 주세요', {
