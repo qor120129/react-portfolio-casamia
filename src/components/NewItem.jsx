@@ -36,9 +36,7 @@ const NewItem = ({ setOpen, isAuth }) => {
     <Swiper
       className='pb-10'
       loop={true}
-      scrollbar={{
-        hide: true,
-      }}
+      scrollbar
       modules={[Scrollbar]}
       slidesPerView={1}
       spaceBetween={16}

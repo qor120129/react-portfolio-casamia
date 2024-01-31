@@ -1,13 +1,14 @@
 import React from 'react'
 import Banner from 'components/Banner'
 import NewList from 'components/NewList'
+import LineBanner from 'components/LineBanner'
 
 const MainPage = ({isAuth}) => {
-  console.log('어디가', isAuth)
   return (
-    <div className='min-w-[calc(100vh-120px)]'>
+    <div>
       <Banner />
       <NewList isAuth={isAuth}/>
+      <LineBanner  />
     </div>
   )
 }
