@@ -10,24 +10,36 @@ import CartPage from 'pages/CartPage'
 import JoinPage from 'pages/JoinPage'
 import 'react-toastify/dist/ReactToastify.css'
 import { useEffect, useState } from 'react'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { app } from 'firebaseApp'
+import { app, database } from 'firebaseApp'
 import Loader from 'components/Loader'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+import { ref, query, onValue, } from "firebase/database"
 
 
 function App() {
   const auth = getAuth(app)
   const [isAuth, setIsAuth] = useState()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [usersDB, setUsersDB] = useState([])
 
   useEffect(() => {
-    setIsLoading(true)
+    const userList = query(ref(database, 'users'))
+    onValue(userList, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setUsersDB(Object.values(data))
+      }
+    })
+
     onAuthStateChanged(auth, (user) => {
-      console.log(isLoading)
+      console.log(user)
       if (user) {
         setIsAuth(true)
+        setIsLoading(false)
       } else {
         setIsAuth(false)
+        setIsLoading(false)
       }
     })
   }, [])
@@ -41,7 +53,7 @@ function App() {
         {
           path: '/',
           element: (
-            <MainPage />
+            <MainPage isAuth={isAuth} />
           ),
         },
         {
@@ -60,7 +72,7 @@ function App() {
         },
         {
           path: '/Join',
-          element: <JoinPage />,
+          element: <JoinPage usersDB={usersDB} />,
         },
         {
           path: '/Cart',
@@ -76,8 +88,8 @@ function App() {
     <>
       <ToastContainer autoClose={1000} limit={3} />
       {isLoading
-        ? <RouterProvider router={router} auth={auth} isAuth={isAuth} />
-        : <Loader className={'w-20'} />
+        ? <Loader className={'w-20'} />
+        : <RouterProvider router={router} />
       }
     </>
   )

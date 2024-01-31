@@ -10,6 +10,15 @@ export default {
         primaryHover: '#A89063',
         main: '#333333',
         sub: '#777777',
+      },
+      keyframes: {
+        opacity: {
+          'from': { opacity: '0' },
+          'to': { opacity: '1' }
+        }
+      },
+      animation: {
+        opacity: 'opacity .1s ease-in',
       }
     },
   },

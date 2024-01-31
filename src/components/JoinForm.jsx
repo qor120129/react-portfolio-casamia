@@ -2,52 +2,44 @@ import React, { useEffect, useState } from 'react'
 import { toast } from "react-toastify"
 import ErrorMsg from 'components/ErrorMsg'
 import { app, database } from "firebaseApp"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
 import { ref, child, get, set, push, query, onValue, } from "firebase/database"
 
-const JoinForm = () => {
+const JoinForm = ({ usersDB }) => {
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [usersDB, setUsersDB] = useState([])
+  const [displayName, setDisplayName] = useState('')
   const navigate = useNavigate()
-
-
-  useEffect(() => {
-    const userList = query(ref(database, 'users'))
-    onValue(userList, (snapshot) => {
-      if(snapshot.exists()){
-        const data = snapshot.val()
-        setUsersDB(Object.values(data))
-      }
-    })
-  }, [])
-
 
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
       const auth = getAuth(app)
       await createUserWithEmailAndPassword(auth, email, password)
+
       toast.success('회원가입에 성공했습니다.', {
         position: "top-center",
       })
-      writeUserData(email, password)
+      writeUserData(email, password, displayName)
       navigate("/")
+      await updateProfile(auth.currentUser, { displayName })
+
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  const writeUserData = (email, password) => {
+  const writeUserData = (email, password, displayName) => {
     const postListRef = ref(database, 'users')
     const newPostRef = push(postListRef)
+
     set(newPostRef, {
-      username: email.substring(0, email.indexOf('@')),
-      email: email,
-      password: password
+      displayName,
+      email,
+      password,
     })
   }
 
@@ -66,6 +58,7 @@ const JoinForm = () => {
         setError('이메일 형식이 올바르지 않습니다.')
       } else {
         setError('')
+        setDisplayName(value.substring(0, value.indexOf('@')))
       }
       if (value.match(regexEmail)) {
         usersDB.filter((item) => {

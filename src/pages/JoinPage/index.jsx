@@ -1,8 +1,8 @@
 import JoinForm from 'components/JoinForm'
 
-const JoinPage = () => {
+const JoinPage = ({usersDB}) => {
   return (
-    <JoinForm />
+    <JoinForm usersDB={usersDB}/>
   )
 }
 

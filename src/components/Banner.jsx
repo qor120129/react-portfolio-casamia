@@ -3,6 +3,7 @@ import banner1 from '@/assets/img/banner1.jpg'
 import banner2 from '@/assets/img/banner2.jpg'
 import banner3 from '@/assets/img/banner3.jpg'
 import banner4 from '@/assets/img/banner4.jpg'
+import { NextIcon, PrevIcon } from '../assets/svgIcon/SvgIcon'
 
 
 const bannerSlide = [
@@ -56,7 +57,7 @@ const Banner = () => {
           key={index}
           onMouseOver={resetTimeout}
           onMouseOut={startTimeout}
-          onMouseDown={(e)=>setStartX(e.pageX)}
+          onMouseDown={(e) => setStartX(e.pageX)}
           onMouseUp={onDragEnd}
           className={`${activeImage === index ? 'opacity-1 ' : 'opacity-0'} absolute transition ease-in-out duration-300 w-full h-full`}
         >
@@ -72,14 +73,10 @@ const Banner = () => {
           </div>
           <div className="flex justify-between absolute top-1/2 right-0 left-0 -translate-y-1/2 z-50">
             <div onClick={() => { index === 0 ? setActiveImage(bannerSlide.length - 1) : setActiveImage(index - 1) }} className=' cursor-pointer text-slate-50/30 hover:text-slate-50/70'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-14 h-14">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
+              <PrevIcon className="w-14 h-14" />
             </div>
             <div onClick={() => { index === bannerSlide.length - 1 ? setActiveImage(0) : setActiveImage(index + 1) }} className="cursor-pointer text-slate-50/30 hover:text-slate-50/70">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-14 h-14">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-              </svg>
+              <NextIcon className="w-14 h-14" />
             </div>
           </div>
         </div>

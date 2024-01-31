@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
+import clickOutside from '@/hooks/clickOutside'
+import Search from 'components/search'
+import { CartIcon, UserIcon } from 'assets/svgIcon/SvgIcon'
 
 const navigation = [
   { name: '거실가구', to: '/Living' },
@@ -14,7 +17,12 @@ const navigation = [
 ]
 
 const Header = ({ auth, isAuth }) => {
-  const name = auth?.currentUser?.email.substring(0, auth.currentUser.email.indexOf('@'))
+
+  const displayName = auth?.currentUser?.displayName
+  const [open, setOpen] = useState(false)
+  const dropdown = useRef()
+
+  clickOutside(dropdown, () => setOpen(false))
 
   const onSignOut = async () => {
     try {
@@ -36,37 +44,44 @@ const Header = ({ auth, isAuth }) => {
             <h1 className='font-[Rokkitt] text-4xl'>casamia</h1>
           </Link>
           <div className='flex items-center gap-4 text-sm'>
-            <div className='relative'>
-              <label className="sr-only">
-                검색
-              </label>
-              <input
-                type="text"
-                name="price"
-                id="price"
-                className="block w-full rounded-md py-1.5 pl-7 pr-20 border text-main ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                placeholder="검색-어를 입력하세요."
-              />
-              <button className='absolute right-4 top-1/2 -translate-y-1/2'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-              </button>
-            </div>
+            <Search placeholder={'검색어를 입력하세요'} />
             <Link to="/Cart">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-              </svg>
-
+              <CartIcon className={'w-6 h-6'} />
             </Link>
             {isAuth
               ?
-              <>
-                <span>{name}</span>
-                <button type="button" className='hover:text-primaryHover hover:underline' onClick={onSignOut} >
-                  로그아웃
-                </button>
-              </>
+              <div ref={dropdown}  >
+                <div
+                  onClick={() => setOpen(!open)}
+                  className='relative w-10 h-10 cursor-pointer'
+                >
+                  {auth?.currentUser?.photoURL
+                    ?
+                    <img src={auth.currentUser.photoURL} alt={auth.currentUser.photoURL}
+                      className=' w-10 h-10 rounded-full'
+                    />
+                    :
+                    <UserIcon fill='#CBCBCB' />
+                  }
+                </div>
+                <div
+                  className={`${open ? 'block opacity-1 animate-opacity' : 'hidden opacity-0'} 
+                    absolute right-4 top-14 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black  ring-opacity-5 focus:outline-none  `}
+                >
+                  <Link
+                    to="#"
+                    className=" block px-4 py-2 text-sm hover:bg-slate-50 ">
+                    마이페이지
+                  </Link>
+                  <button
+                    type="button"
+                    className='block px-4 py-2 text-sm w-full text-left hover:bg-slate-50'
+                    onClick={onSignOut}
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              </div>
               :
               <>
                 <Link to="/login">로그인</Link>
@@ -84,7 +99,6 @@ const Header = ({ auth, isAuth }) => {
               to={item.to}
               className='hover:text-primary
                 h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12'
-            // activeClassName="active"
             >
               {item.name}
             </NavLink>
