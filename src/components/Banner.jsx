@@ -48,7 +48,7 @@ const Banner = () => {
 
 
   return (
-    <section className='  relative h-[70vh] max-sm:h-[50vh] overflow-hidden  '>
+    <section className='  relative h-[70vh] max-sm:h-[50vh] overflow-hidden mt-[122px]'>
       {bannerSlide.map((item, index) => (
         <div
           key={index}
@@ -65,7 +65,7 @@ const Banner = () => {
               min-[1920px]:w-full max-[1920px]:max-w-fit max-lg:h-full  
               '/>
           </div>
-          <div className='z-10 absolute top-[35%] left-1/2 -translate-x-1/2 text-center text-slate-50 lg:top-[30%]'>
+          <div className='z-10 absolute top-[30%] left-1/2 -translate-x-1/2 text-center text-slate-50'>
             <div className='font-[Rokkitt] sm:w-[80vw] w-[55vw] m-auto sm:text-5xl text-4xl'>
               {item.title}
             </div>

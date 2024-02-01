@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
 import Search from 'components/search'
 import { CartIcon, UserIcon } from 'assets/svgIcon/SvgIcon'
+import { NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
+import { throttle } from 'lodash'
 
 const navigation = [
   { name: '거실가구', to: '/Living' },
@@ -17,16 +19,41 @@ const navigation = [
 ]
 
 const Header = ({ auth, isAuth }) => {
-
-  const displayName = auth?.currentUser?.displayName
+  // const displayName = auth?.currentUser?.displayName
   const [open, setOpen] = useState(false)
+  const [navScrollWidth, setNavScrollWidth] = useState(0)
+  const [navOffsetWidth, setNavOffsetWidth] = useState(0)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [scrollBtn, setScrollBtn] = useState(true)
+  const [scrollTop, setScrollTop] = useState(false)
+  const [scrollUp, setScrollUp] = useState(false)
+
   const dropdown = useRef()
+  const navScroll = useRef()
 
   clickOutside(dropdown, () => setOpen(false))
 
+  useEffect(() => {
+    setNavScrollWidth(navScroll.current.scrollWidth)
+    setNavOffsetWidth(navScroll.current.offsetWidth)
+    window.addEventListener("resize", resize)
+    return () => {
+      window.removeEventListener("resize", resize)
+    }
+  }, [windowWidth])
+
+  useEffect(() => {
+
+    document.addEventListener('wheel', handleScrollY, { passive: false })
+    return () => {
+      document.removeEventListener('wheel', handleScrollY, { passive: false })
+    }
+
+  }, [])
+
+  //로그아웃
   const onSignOut = async () => {
     try {
-      // const auth = getAuth(app)
       await signOut(auth)
       toast.success('로그아웃 되었습니다.', {
         position: "top-center",
@@ -36,8 +63,79 @@ const Header = ({ auth, isAuth }) => {
     }
   }
 
+
+  // Scroll 변경에 따라 Header 변경
+  const handleScrollY = throttle((e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (e.deltaY > 0) {
+      setScrollUp(false)
+      setScrollTop(false)
+    } else if (e.deltaY < 0) {
+      setScrollUp(true)
+      setScrollTop(false)
+    }
+    if (window.scrollY === 0) {
+      setScrollTop(true)
+    }
+    
+  }, 300)
+
+
+  // 화면 변경시 가로스크롤
+  const resize = () => {
+    setWindowWidth(window.innerWidth)
+  }
+
+
+
+  //  Nav 가로 스크롤
+  const navScrollbar = (name) => {
+    if (name === 'next') {
+      navScroll.current.scrollLeft += (navScrollWidth - navOffsetWidth) / 2
+      if (navScroll.current.scrollLeft >= (navScrollWidth - navOffsetWidth)) {
+        setScrollBtn(false)
+      }
+    }
+    if (name === 'prev') {
+      navScroll.current.scrollLeft -= (navScrollWidth - navOffsetWidth) / 2
+      if (navScroll.current.scrollLeft === 0) {
+        setScrollBtn(true)
+      }
+    }
+  }
+
+
+  // Nav 휠 가로 스크롤 이벤트
+  const onMouseOver = () => {
+    navScroll.current.addEventListener('wheel', wheelScrollX, { passive: false })
+    return () => {
+      window.removeEventListener('wheel', wheelScrollX, { passive: false })
+    }
+  }
+
+  const wheelScrollX = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (e.wheelDeltaY > 0) {
+      navScrollbar('prev')
+    } else {
+      navScrollbar('next')
+    }
+  }
+
+  // Scroll 상단이동
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
   return (
-    <header className='border-b '>
+    <nav className={` ${scrollUp && !scrollTop ? '-translate-y-[78px]   last:*:py-4' : `${scrollTop ? 'translate-y-0' : '-translate-y-full'} `} border-b z-[9999]  bg-white  transition duration-700 delay-150 fixed top-0 left-0 right-0`}>
       <div className='max-w-[80rem] m-auto p-4'>
         <div className='flex justify-between items-center '>
           <Link to="/">
@@ -91,22 +189,48 @@ const Header = ({ auth, isAuth }) => {
           </div>
         </div>
       </div>
-      <div className='border-t'>
-        <nav className='max-w-[80rem] m-auto flex flex-wrap px-4'>
+      <div
+        className='overflow-hidden relative border-t'
+      >
+        <nav
+          ref={navScroll}
+          onMouseOver={onMouseOver}
+          className={`${navScrollWidth > navOffsetWidth ? 'overflow-x-scroll scrollbar-hide ml-8' : ''} 
+          max-w-[80rem] m-auto flex cursor-pointer transition scroll-smooth px-4`}
+        >
           {navigation.map((item, index) => (
             <NavLink
               key={index}
               to={item.to}
-              className='hover:text-primary
-                h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12'
+              className='hover:text-primary h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12  '
             >
               {item.name}
             </NavLink>
           ))
           }
         </nav>
+
+        {navScrollWidth > navOffsetWidth &&
+          <div className='*:absolute *:top-1/2 *:-translate-y-1/2 *:border *:bg-gray-50 *:rounded-lg *:p-1 *:cursor-pointer  *:before:absolute *:before:inset-0 *:before:-top-1/3 *:before:-bottom-1/4 *:before:-right-full *:before:-left-full *:before:-z-[1]  *:before:from-transparent *:before:via-transparent *:before:via-10% *:before:to-white  *:before:to-50%  *:z-[50]'>
+            {scrollBtn
+              ?
+              < div
+                className='relative right-2 before:bg-gradient-to-r'
+                onClick={() => navScrollbar('next')}
+              >
+                <NextIcon className={'w-6 h-6 '} />
+              </div>
+              :
+              <div
+                className='relative left-2 before:bg-gradient-to-l '
+                onClick={() => navScrollbar('prev')}
+              >
+                <PrevIcon className={'w-6 h-6 '} />
+              </div>}
+          </div>
+        }
       </div>
-    </header>
+    </nav >
   )
 }
 
