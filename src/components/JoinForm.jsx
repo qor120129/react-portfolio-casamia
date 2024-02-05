@@ -28,7 +28,7 @@ const JoinForm = ({ usersDB }) => {
       await updateProfile(auth.currentUser, { displayName })
 
     } catch (error) {
-      console.log(error.message)
+      console.log(error)
     }
   }
 

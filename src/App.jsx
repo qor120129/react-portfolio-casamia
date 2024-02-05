@@ -1,4 +1,6 @@
+import 'react-toastify/dist/ReactToastify.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import MainLayout from 'layout/MainLayout'
 import MainPage from 'pages/MainPage'
@@ -8,13 +10,12 @@ import LivingPage from 'pages/LivingPage'
 import LoginPage from 'pages/LoginPage'
 import CartPage from 'pages/CartPage'
 import JoinPage from 'pages/JoinPage'
-import 'react-toastify/dist/ReactToastify.css'
-import { useEffect, useState } from 'react'
-import { app, database } from 'firebaseApp'
 import Loader from 'components/Loader'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
+import { app, database } from 'firebaseApp'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref, query, onValue, } from "firebase/database"
+import { ArrowUp } from 'assets/svgIcon/SvgIcon'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [isAuth, setIsAuth] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [usersDB, setUsersDB] = useState([])
+
 
   useEffect(() => {
     const userList = query(ref(database, 'users'))
@@ -33,7 +35,6 @@ function App() {
     })
 
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
       if (user) {
         setIsAuth(true)
         setIsLoading(false)
@@ -45,10 +46,19 @@ function App() {
   }, [])
 
 
+  // Scroll 상단이동
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout auth={auth} isAuth={isAuth} />,
+      element: <MainLayout auth={auth} isAuth={isAuth}  />,
       children: [
         {
           path: '/',
@@ -86,7 +96,10 @@ function App() {
 
   return (
     <>
-      <ToastContainer autoClose={1000} limit={3} />
+      <ToastContainer autoClose={1000} />
+      <div onClick={scrollToTop} className=' cursor-pointer'>
+        <ArrowUp className={'w-6 h-6'} />
+      </div>
       {isLoading
         ? <Loader className={'w-20'} />
         : <RouterProvider router={router} />

@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  @apply text-main
+  @apply text-main 
 }
 
 @layer base {
@@ -57,21 +57,21 @@ img {
 
 
 /* width */
-header ::-webkit-scrollbar {
+/* header ::-webkit-scrollbar {
   height:  6px;
   width: 6px;
-}
+} */
 
 /* Track */
-header ::-webkit-scrollbar-track {
+/* header ::-webkit-scrollbar-track {
   background: #f1f1f1;
-}
+} */
 
 /* Handle */
-header ::-webkit-scrollbar-thumb {
+/* header ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, .5);
   border-radius: 5px;
-}
+} */
 
 /* Handle on hover */
 /* header ::-webkit-scrollbar-thumb:hover {

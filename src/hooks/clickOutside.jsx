@@ -9,10 +9,10 @@ function clickOutside(ref, handler) {
       handler()
 
     }
-    document.addEventListener('mousedown', listener)
+    window.addEventListener('mousedown', listener)
 
     return () => {
-      document.removeEventListener('mousedown', listener)
+      window.removeEventListener('mousedown', listener)
     }
   }, [ref, handler])
 }

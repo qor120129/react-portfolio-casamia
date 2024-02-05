@@ -15,27 +15,28 @@ const bannerSlide = [
 const Banner = () => {
   const [activeImage, setActiveImage] = useState(0)
   const [startX, setStartX] = useState(0)
-  const [dragMove, setDragMove] = useState(true)
-  const timeOutRef = useRef(0)
-
-
-  const resetTimeout = () => {
-    setDragMove(false)
-    // console.log('false;')
-    clearTimeout(timeOutRef.current);
-  }
-
-  const startTimeout = () => {
-    // console.log('true;')
-    // timeOutRef.current = setTimeout(() => {
-    //   setDragMove(true)
-    //   activeImage === bannerSlide.length - 1 ? setActiveImage(0) : setActiveImage(activeImage + 1)
-    // }, 5000);
-  }
+  const [mouseOn, setMouseOn] = useState(true)
+  const bannerRef = useRef(null)
 
   useEffect(() => {
-    dragMove ? startTimeout() : resetTimeout()
+    mouseOn ? startTimeout() : resetTimeout()
   }, [activeImage])
+
+  // 자동배너 / 마우스 out
+  const startTimeout = () => {
+    bannerRef.current = setTimeout(() => {
+      setMouseOn(true)
+      activeImage === bannerSlide.length - 1 ? setActiveImage(0) : setActiveImage(activeImage + 1)
+    }, 5000);
+  }
+
+  // 자동배너 멈춤
+  const resetTimeout = () => {
+    setMouseOn(false)
+    clearTimeout(bannerRef.current)
+  }
+
+
 
 
   const onDragEnd = (e) => {
@@ -48,9 +49,10 @@ const Banner = () => {
 
 
   return (
-    <section className='  relative h-[70vh] max-sm:h-[50vh] overflow-hidden mt-[122px]'>
+    <section ref={bannerRef} className='relative h-[70vh] max-sm:h-[50vh] overflow-hidden mt-[122px]'>
       {bannerSlide.map((item, index) => (
         <div
+
           key={index}
           onMouseOver={resetTimeout}
           onMouseOut={startTimeout}

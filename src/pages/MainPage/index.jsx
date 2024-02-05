@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Banner from 'components/Banner'
-import NewList from 'components/NewList'
+import List from 'components/List'
 import LineBanner from 'components/LineBanner'
 
-const MainPage = ({isAuth}) => {
+const MainPage = ({ isAuth }) => {
   return (
     <div>
       <Banner />
-      <NewList isAuth={isAuth}/>
-      <LineBanner  />
+      <List isAuth={isAuth} category={'new'}/>
+      <LineBanner />
+      <List isAuth={isAuth} category={'best'}/>
     </div>
   )
 }

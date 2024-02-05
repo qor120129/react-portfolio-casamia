@@ -2,7 +2,7 @@ import React from 'react'
 import lineBannerImg from 'assets/img/lineBanner.jpg'
 const LineBanner = () => {
   return (
-    <div className='max-w-[80rem] m-auto my-14 h-64 overflow-hidden relative before:absolute before:inset-0 before:bg-black before:opacity-50 before:block before:z-10'>
+    <div className='max-w-[80rem] m-auto my-10 h-64 overflow-hidden relative before:absolute before:inset-0 before:bg-black before:opacity-50 before:block before:z-10'>
       <img src={lineBannerImg} alt={lineBannerImg} width={'100%'} className='-translate-y-20' />
       <div className='absolute top-0 left-0 z-10 text-white p-12 py-20'>
         <div className='sm:text-3xl text-2xl whitespace-nowrap font-medium mb-4'>

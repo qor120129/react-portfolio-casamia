@@ -25,13 +25,16 @@ const Header = ({ auth, isAuth }) => {
   const [navOffsetWidth, setNavOffsetWidth] = useState(0)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [scrollBtn, setScrollBtn] = useState(true)
-  const [scrollTop, setScrollTop] = useState(false)
+  const [scrollTop, setScrollTop] = useState(true)
   const [scrollUp, setScrollUp] = useState(false)
 
   const dropdown = useRef()
   const navScroll = useRef()
 
   clickOutside(dropdown, () => setOpen(false))
+
+
+
 
   useEffect(() => {
     setNavScrollWidth(navScroll.current.scrollWidth)
@@ -44,9 +47,9 @@ const Header = ({ auth, isAuth }) => {
 
   useEffect(() => {
 
-    document.addEventListener('wheel', handleScrollY, { passive: false })
+    window.addEventListener('wheel', handleScrollY, { passive: false })
     return () => {
-      document.removeEventListener('wheel', handleScrollY, { passive: false })
+      window.removeEventListener('wheel', handleScrollY, { passive: false })
     }
 
   }, [])
@@ -58,7 +61,7 @@ const Header = ({ auth, isAuth }) => {
       toast.success('로그아웃 되었습니다.', {
         position: "top-center",
       })
-    } catch (error) {
+    } catch(error) {
       console.log(error)
     }
   }
@@ -79,7 +82,7 @@ const Header = ({ auth, isAuth }) => {
     if (window.scrollY === 0) {
       setScrollTop(true)
     }
-    
+
   }, 300)
 
 
@@ -87,8 +90,6 @@ const Header = ({ auth, isAuth }) => {
   const resize = () => {
     setWindowWidth(window.innerWidth)
   }
-
-
 
   //  Nav 가로 스크롤
   const navScrollbar = (name) => {
@@ -111,7 +112,7 @@ const Header = ({ auth, isAuth }) => {
   const onMouseOver = () => {
     navScroll.current.addEventListener('wheel', wheelScrollX, { passive: false })
     return () => {
-      window.removeEventListener('wheel', wheelScrollX, { passive: false })
+      navScroll.current.removeEventListener('wheel', wheelScrollX, { passive: false })
     }
   }
 
@@ -126,13 +127,6 @@ const Header = ({ auth, isAuth }) => {
     }
   }
 
-  // Scroll 상단이동
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
 
   return (
     <nav className={` ${scrollUp && !scrollTop ? '-translate-y-[78px]   last:*:py-4' : `${scrollTop ? 'translate-y-0' : '-translate-y-full'} `} border-b z-[9999]  bg-white  transition duration-700 delay-150 fixed top-0 left-0 right-0`}>
