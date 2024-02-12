@@ -1,7 +1,7 @@
-import 'react-toastify/dist/ReactToastify.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import MainLayout from 'layout/MainLayout'
 import MainPage from 'pages/MainPage'
 import NotFound from 'pages/NotFound'
@@ -23,6 +23,7 @@ function App() {
   const [isAuth, setIsAuth] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [usersDB, setUsersDB] = useState([])
+  const [scrollTop, setScrollTop] = useState(false)
 
 
   useEffect(() => {
@@ -50,15 +51,16 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      // behavior: 'smooth'
     })
+    // setScrollTop(true)
   }
 
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout auth={auth} isAuth={isAuth}  />,
+      element: <MainLayout auth={auth} isAuth={isAuth} scrollTop={scrollTop} setScrollTop={setScrollTop}/>,
       children: [
         {
           path: '/',
@@ -96,7 +98,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer autoClose={1000} />
+      <ToastContainer autoClose={1000} hideProgressBar={true} className={` absolute z-[99999]`}/>
       <div onClick={scrollToTop} className=' cursor-pointer'>
         <ArrowUp className={'w-6 h-6'} />
       </div>

@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  @apply text-main 
+  @apply text-main
 }
 
 @layer base {
@@ -13,6 +13,7 @@ body {
     @apply text-primary font-semibold
   }
 }
+
 
 img {
   -webkit-user-drag: none;
@@ -53,7 +54,7 @@ img {
   100% {
     width: 100%;
   }
-} 
+}
 
 
 /* width */

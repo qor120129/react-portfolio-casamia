@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Scrollbar } from 'swiper/modules'
 import { WishActiveIcon, WishIcon } from 'assets/svgIcon/SvgIcon'
-import { doc, setDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore"
 import { cloudStore } from 'firebaseApp'
 import Loader from './Loader'
+import LoaderImg from './LoaderImg'
 
 
 const NewItem = ({ setOpen, isAuth }) => {
@@ -17,9 +18,13 @@ const NewItem = ({ setOpen, isAuth }) => {
   }, [])
 
 
-  const clickWish = () => {
+  const clickWish = (id) => {
+    console.log('isAuth', isAuth)
+    console.log('setOpen', setOpen)
     if (!isAuth) {
       setOpen(true)
+    } else {
+      console.log(id)
     }
   }
 
@@ -28,9 +33,10 @@ const NewItem = ({ setOpen, isAuth }) => {
     try {
       const getNewList = await getDocs(collection(cloudStore, "/newItems"))
 
-      const newList = getNewList.docs.map((doc) => {
-        return doc.data()
-      })
+      const newList = getNewList.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
       setNewItemList(newList)
     } catch (error) {
       console.log(error)
@@ -63,38 +69,29 @@ const NewItem = ({ setOpen, isAuth }) => {
 
 
 
-      {newItemList.map((itme, index) => (
-        <SwiperSlide key={index}>
+      {newItemList.map((item) => (
+        <SwiperSlide key={item.id}>
           <div className='w-full h-full relative'>
-
-            {isLoading && (
-              <div className='bg-gray-50 w-full h-[297px]'>
-                <Loader className={'w-20 z-50'} />
-              </div>
-            )}
-            <img
-              src={itme.img}
-              alt={itme.brand + itme.title + itme.price + '원'}
-              onLoad={() => setIsLoading(false)} />
-
-          </div><div className='flex flex-col justify-between py-4 px-2 min-h-[145px]'>
-            <h4>{itme.brand}</h4>
-            <h3 className='font-medium mt-1 truncate'>{itme.title}</h3>
+            <LoaderImg src={item.img} alt={item.brand + item.title + item.price + '원'} />
+          </div>
+          <div className='flex flex-col justify-between py-4 px-2 min-h-[145px]'>
+            <h4>{item.brand}</h4>
+            <h3 className='font-medium mt-1 truncate'>{item.title}</h3>
             <div className='flex flex-col flex-1 justify-end realtive'>
-              {itme.salePrice !== null
-                ? <span className='text-sm line-through opacity-40'>{itme.price}원</span>
-                : <span className=''>{itme.price}원</span>}
+              {item.salePrice !== null
+                ? <span className='text-sm line-through opacity-40'>{item.price}원</span>
+                : <span className=''>{item.price}원</span>}
               <div>
-                {itme.percent !== null
-                  ? <span className='mr-2 text-primary font-medium'>{itme.percent}%</span>
+                {item.percent !== null
+                  ? <span className='mr-2 text-primary font-medium'>{item.percent}%</span>
                   : ''}
-                {itme.salePrice !== null
-                  ? <span>{itme.salePrice}원</span>
+                {item.salePrice !== null
+                  ? <span>{item.salePrice}원</span>
                   : ''}
               </div>
               <div className='absolute right-2'>
                 <button type='button'
-                  onClick={clickWish}
+                  onClick={() => clickWish(item.id)}
                 >
                   {wishClick
                     ?

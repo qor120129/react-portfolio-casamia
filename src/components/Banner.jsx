@@ -49,7 +49,7 @@ const Banner = () => {
 
 
   return (
-    <section ref={bannerRef} className='relative h-[70vh] max-sm:h-[50vh] overflow-hidden mt-[122px]'>
+    <section ref={bannerRef} className='relative h-[60vh] max-sm:h-[50vh] overflow-hidden'>
       {bannerSlide.map((item, index) => (
         <div
 

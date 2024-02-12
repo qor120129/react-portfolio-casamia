@@ -8,7 +8,7 @@ export default {
       colors: {
         primary: '#B29A6C',
         primaryHover: '#A89063',
-        main: '#333333',
+        main: '#222222',
         sub: '#777777',
       },
       keyframes: {
