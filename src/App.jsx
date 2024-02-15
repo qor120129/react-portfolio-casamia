@@ -51,16 +51,14 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      // behavior: 'smooth'
     })
-    // setScrollTop(true)
   }
 
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout auth={auth} isAuth={isAuth} scrollTop={scrollTop} setScrollTop={setScrollTop}/>,
+      element: <MainLayout auth={auth} isAuth={isAuth}/>,
       children: [
         {
           path: '/',

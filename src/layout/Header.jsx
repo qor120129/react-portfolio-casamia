@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
-import Search from 'components/search'
+import Search from 'components/Search'
 import { CartIcon, UserIcon, NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
 import { throttle } from 'lodash'
 
