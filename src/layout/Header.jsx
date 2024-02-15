@@ -4,8 +4,7 @@ import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
 import Search from 'components/search'
-import { CartIcon, UserIcon } from 'assets/svgIcon/SvgIcon'
-import { NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
+import { CartIcon, UserIcon, NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
 import { throttle } from 'lodash'
 
 const navigation = [
@@ -18,7 +17,7 @@ const navigation = [
   { name: '매장찾기', to: '/Store' },
 ]
 
-const Header = ({ auth, isAuth, scrollTop, setScrollTop }) => {
+const Header = ({ auth, isAuth }) => {
   // const displayName = auth?.currentUser?.displayName
   const [open, setOpen] = useState(false)
   const [navScrollWidth, setNavScrollWidth] = useState(0)
@@ -73,9 +72,6 @@ const Header = ({ auth, isAuth, scrollTop, setScrollTop }) => {
 
 
 
-
-
-
   //로그아웃
   const onSignOut = async () => {
     try {
@@ -89,28 +85,6 @@ const Header = ({ auth, isAuth, scrollTop, setScrollTop }) => {
       toast.error(err.message)
     }
   }
-
-
-  // // Scroll 변경에 따라 Header 변경
-  // const handleScrollY = throttle((e) => {
-  //   console.log('scrollUp', window.scrollY)
-  //   console.log('navScrollWidth', window)
-  //   // console.log('scrollTop', scrollTop)
-
-  //   e.preventDefault()
-  //   e.stopPropagation()
-
-  //   if (e.deltaY > 0) {
-  //     setScrollUp(false)
-  //     setScrollTop(false)
-  //   } else if (e.deltaY < 0) {
-  //     setScrollUp(true)
-  //     setScrollTop(false)
-  //   }
-  //   if (window.scrollY < 200) {
-  //     setScrollTop(true)
-  //   }
-  // }, 300)
 
 
   // 화면 변경시 가로스크롤
@@ -177,7 +151,7 @@ const Header = ({ auth, isAuth, scrollTop, setScrollTop }) => {
                 >
                   {auth?.currentUser?.photoURL
                     ?
-                    <img src={auth.currentUser.photoURL} alt={auth.currentUser.photoURL}
+                    <img src={auth?.currentUser?.photoURL} alt={auth?.currentUser?.photoURL}
                       className=' w-10 h-10 rounded-full'
                     />
                     :
