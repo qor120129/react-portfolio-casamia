@@ -16,6 +16,7 @@ import { app, database } from 'firebaseApp'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref, query, onValue, } from "firebase/database"
 import { ArrowUp } from 'assets/svgIcon/SvgIcon'
+import SubLayout from './layout/SubLayout'
 
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout auth={auth} isAuth={isAuth}/>,
+      element: <MainLayout auth={auth} isAuth={isAuth} />,
       children: [
         {
           path: '/',
@@ -96,7 +97,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer autoClose={1000} hideProgressBar={true} className={` absolute z-[99999]`}/>
+      <ToastContainer autoClose={1000} hideProgressBar={true} className={` absolute z-[99999]`} />
       <div onClick={scrollToTop} className=' cursor-pointer'>
         <ArrowUp className={'w-6 h-6'} />
       </div>

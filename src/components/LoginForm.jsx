@@ -23,14 +23,15 @@ const LoginForm = () => {
       navigate("/")
 
     } catch (error) {
-      toast.error('이메일 또는 비밀번호를 확인해 주세요 ')
-      console.log(error.message)
       if (error.message.match('auth/invalid-credential')) {
+        toast.error('이메일 또는 비밀번호를 확인해 주세요 ',{
+          position: "top-center"
+        }) 
       }
       if (error.message.match('to many failed')) {
-        toast.error('여러 번의 로그인 시도 실패로 나중에 다시 시도할 수 있습니다.', {
+        toast.error('여러 번의 로그인 시도 실패로 나중에 다시 시도할 수 있습니다.',{
           position: "top-center"
-        })
+        }) 
       }
     }
   }

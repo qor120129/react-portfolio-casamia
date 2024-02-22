@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { WishActiveIcon, WishIcon } from 'assets/svgIcon/SvgIcon'
 import { cloudStore } from 'firebaseApp'
 import { collection, getDocs } from "firebase/firestore"
-import Loader from './Loader'
 import LoaderImg from './LoaderImg'
 
 
 const BestItem = ({ setOpen, isAuth }) => {
   const [wishClick, setWishClick] = useState(false)
   const [bestItemList, setBestItemList] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
 
 
   useEffect(() => {
@@ -83,7 +81,6 @@ const BestItem = ({ setOpen, isAuth }) => {
         </div>
       ))}
     </div>
-
   )
 }
 

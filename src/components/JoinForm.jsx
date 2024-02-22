@@ -167,7 +167,7 @@ const JoinForm = ({ usersDB }) => {
             </button>
           </div>
           <div className='text-sm text-center'>이미 아이디가 있으신가요?
-            <Link to='/Login' className='ml-2 underline hover:text-primary'>로그인 하기</Link>
+            <Link to='/Login' className='ml-2 underline underline-offset-2 hover:text-primary'>로그인 하기</Link>
           </div>
         </form>
       </div>

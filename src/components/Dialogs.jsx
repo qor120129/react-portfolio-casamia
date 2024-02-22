@@ -8,7 +8,7 @@ export default function Dialogs({ title, succes, close, to, setOpen}) {
 
 
   return (
-    <div className={` z-50 fixed inset-0 bg-gray-500 bg-opacity-50 animate-opacity`} >
+    <div className={` z-[999999] fixed inset-0 bg-gray-500 bg-opacity-50 animate-opacity`} >
       <div className='flex items-center justify-center h-full'   >
         <div className=" min-w-80 text-center  bg-white shadow-xl transition-all rounded-lg overflow-hidden ">
           <div className="bg-white p-6 text-base font-semibold leading-6 whitespace-pre-line">

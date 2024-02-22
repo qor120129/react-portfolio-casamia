@@ -36,7 +36,7 @@ const InteriorStory = () => {
 
   return (
     <section className='max-w-[80rem] m-auto px-4 py-12 box-content'>
-      <h2 className='uppercase font-semibold text-[24px] pt-4 pb-8 text-center'>
+      <h2 className='uppercase font-semibold text-[24px] pb-8 text-center'>
         interior Story
       </h2>
       <Swiper

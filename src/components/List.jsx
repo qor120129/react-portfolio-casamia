@@ -14,16 +14,15 @@ const List = ({ isAuth, category }) => {
 
   return (
     <section className='max-w-[80rem] m-auto px-4 py-12 box-content'>
-
       {category === 'new' &&
         <>
-          <h2 className='uppercase font-semibold text-[24px] pt-4 pb-8 text-center'>new item <span>이달의 신제품</span></h2>
+          <h2 className='uppercase font-semibold text-[24px] file: pb-8 text-center'>new item <span>이달의 신제품</span></h2>
           <NewItem setOpen={setOpen} isAuth={isAuth} />
         </>
       }
       {category === 'best' &&
         <>
-          <div className='flex items-center justify-center pt-4 pb-8'>
+          <div className='flex items-center justify-center pb-8'>
             <h2 className='uppercase font-semibold text-[24px]  mr-4'>best item <span>베스트</span></h2>
             <ArrowRight className={`w-6 h-8 leading-6 hover:text-primary cursor-pointer`} />
           </div>
