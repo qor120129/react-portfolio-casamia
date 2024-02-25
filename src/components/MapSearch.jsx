@@ -13,7 +13,7 @@ const MapSearch = ({searchChange}) => {
     searchChange(search)
   }
   return (
-    <div className='p-12 w-[500px] box-border' id='mapWrap'>
+    <div className='p-12 w-[500px] box-border overflow-y-scroll' id='mapWrap'>
       <form onSubmit={onSubmit}>
         <div className='relative'>
           <label className="sr-only">
@@ -31,7 +31,7 @@ const MapSearch = ({searchChange}) => {
           </button>
         </div>
       </form>
-      <ul id="mapList"></ul>
+      <ul id="mapList" className='mt-2'></ul>
       <div id="mapPagination"></div>
     </div>
   )

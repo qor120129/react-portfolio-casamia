@@ -4,7 +4,7 @@ import MapSearch from 'components/MapSearch'
 import { toast } from 'react-toastify'
 
 const StorePage = () => {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('까사미아')
 
 
   var markers = []
@@ -12,14 +12,12 @@ const StorePage = () => {
 
     var container = document.getElementById('map'),
       option = {
-        center: new kakao.maps.LatLng(37.52234579189475, 127.01946746644606), // 지도의 중심좌표
-        level: 3
+        center: new kakao.maps.LatLng(0, 0), // 지도의 중심좌표
       }
     var ps = new kakao.maps.services.Places();
     var map = new kakao.maps.Map(container, option);
 
-    // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
-    var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+    var infowindow = new kakao.maps.InfoWindow()
 
     searchPlaces()
 
@@ -27,26 +25,24 @@ const StorePage = () => {
     function searchPlaces() {
 
       // var keyword = document.getElementById('searchKeyword').value;
-      console.log('까사미아', search)
       if (!search.replace(/^\s+|\s+$/g, '')) {
         toast.error('키워드를 입력해주세요!', {
           position: "top-center"
         })
       }
-      ps.keywordSearch('까사미아 ' + search, placesSearchCB, option);
+      ps.keywordSearch('까사미아 ' + search, placesSearchCB);
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수
     function placesSearchCB(data, status, pagination) {
-      console.log(data)
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출합니다
         const filterData = data.filter(item => {
           return item.category_name.match('가구판매')
         })
-        console.log(filterData, 'filterData')
         displayPlaces(filterData);
+
         // 페이지 번호를 표출합니다
         displayPagination(pagination);
 
@@ -63,12 +59,16 @@ const StorePage = () => {
       }
     }
 
+
+
     //검색 결과 목록과 마커를 표출하는 함수
     function displayPlaces(places) {
       var listEl = document.getElementById('mapList'),
         menuEl = document.getElementById('mapWrap'),
         fragment = document.createDocumentFragment(),
         bounds = new kakao.maps.LatLngBounds();
+      // bounds.extend(position);
+      console.log('bounds', bounds)
 
       // listStr = '';
 
@@ -78,33 +78,35 @@ const StorePage = () => {
       removeMarker();
 
       for (var i = 0; i < places.length; i++) {
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-          marker = addMarker(placePosition, i),
+        // 마커를 생성하고 지도에 표시합니
+        var position = new kakao.maps.LatLng(places[i].y, places[i].x),
+          marker = addMarker(position, i),
           itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
+        bounds.extend(position);
 
+        // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function (marker, place_name, road_address_name, phone, id) {
+        (function (marker, places) {
           kakao.maps.event.addListener(marker, 'mouseover', function () {
-            displayInfowindow(marker, place_name, road_address_name, phone, id);
-          })
-          kakao.maps.event.addListener(marker, 'click', function () {
-            displayInfowindow(marker, place_name, road_address_name, phone, id);
-          })
-          itemEl.onmouseover = function () {
-            displayInfowindow(marker, place_name, road_address_name, phone, id);
-          }
-
-          itemEl.onmouseout = function () {
             infowindow.close();
+            displayInfowindow(marker, places);
+          })
+          // kakao.maps.event.addListener(marker, 'mouseout', function () {
+          //   infowindow.close();
+          // })
+          kakao.maps.event.addListener(marker, 'click', function () {
+            displayInfowindow(marker, places);
+          })
+          itemEl.onclick = function () {
+            infowindow.close();
+            map.setCenter( new kakao.maps.LatLng(places.y, places.x))
+            displayInfowindow(marker, places, position);
           }
-        })(marker, places[i].place_name, places[i].road_address_name, places[i].phone, places[i].id)
+        })(marker, places[i])
 
         fragment.appendChild(itemEl);
       }
@@ -125,12 +127,12 @@ const StorePage = () => {
           '   <h5>' + places.place_name + '</h5>'
 
       if (places.road_address_name) {
-        itemStr += '    <span>' + places.road_address_name + '</span>' +
-          '   <span class="jibun gray">' + places.address_name + '</span>'
+        itemStr += '<span>' + places.road_address_name + '</span>' +
+          '<span class="jibun gray">' + places.address_name + '</span>'
       } else {
-        itemStr += '    <span>' + places.address_name + '</span>'
+        itemStr += '<span>' + places.address_name + '</span>'
       }
-      itemStr += '  <span class="tel">' + places.phone + '</span>' +
+      itemStr += '<span class="phone">' + places.phone + '</span>' +
         '</div>'
 
       el.innerHTML = itemStr
@@ -141,6 +143,7 @@ const StorePage = () => {
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수
     function addMarker(position) {
+      console.log(position)
       var imageSrc = 'src/assets/img/marker.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(30, 30),  // 마커 이미지의 크기
         imgOptions = {
@@ -151,10 +154,9 @@ const StorePage = () => {
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
         marker = new kakao.maps.Marker({
           position: position, // 마커의 위치
-          image: markerImage
+          image: markerImage,
         });
-
-      marker.setMap(map); // 지도 위에 마커를 표출합니다
+      marker.setMap(map, option); // 지도 위에 마커를 표출합니다
       markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
       return marker;
@@ -202,16 +204,19 @@ const StorePage = () => {
     }
 
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수 인포윈도우에 장소명을 표시
-    function displayInfowindow(marker, place_name, road_address_name, phone, id) {
+    function displayInfowindow(marker, places, position) {
       var content =
         '<div class="info_wrap">' +
-        '<div class="info_tt">' + place_name + '</div>' +
-        '<p>' + road_address_name + '</p>' +
-        '<span class="tel">' + phone + '</span>' +
-        '<div class="info_link"><a href="https://map.kakao.com/link/map/' + id + '"target="_blank" >지도보기</a></div>'
+        '<div class="info_tt">' + places.place_name + '</div>' +
+        '<p>' + places.road_address_name + '</p>' +
+        '<span class="tel">' + places.phone + '</span>' +
+        '<div class="info_link"><a href="https://map.kakao.com/link/map/' + places.id + '"target="_blank" >지도보기</a></div>'
       '</div>';
-
-      infowindow.setContent(content);
+      infowindow = new kakao.maps.InfoWindow({
+        position: position,
+        content: content,
+      })
+      // infowindow.setContent(content);
       infowindow.open(map, marker);
     }
 
@@ -231,7 +236,7 @@ const StorePage = () => {
 
 
   return (
-    <div className='flex'>
+    <div className='flex h-[calc(100vh-120px)]'>
       <MapSearch searchChange={searchChange} />
       <Map />
     </div>

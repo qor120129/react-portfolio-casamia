@@ -67,3 +67,46 @@ img {
   cursor: pointer;
   min-height: 65px;
 }
+
+#mapList .mapItem h5 {
+  font-weight: 700
+}
+
+#mapList .mapItem .info>span {
+  @apply block mt-1 truncate
+}
+
+#mapList .mapItem .jibun {
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
+  @apply text-sub pl-7 leading-[15px] mt-2
+}
+
+#mapList .mapItem .phone {
+  @apply text-primary
+}
+
+#mapPagination {
+  @apply flex items-center justify-center gap-4 pt-4
+
+}
+
+#mapPagination .on {
+  @apply text-primary
+}
+
+/*  MAP 인포윈도우 */
+.info_wrap{
+  @apply p-4 whitespace-nowrap truncate rounded-lg
+}
+.info_wrap .info_tt{
+  @apply text-base
+}
+.info_wrap p{
+  @apply text-sm text-sub
+}
+.info_wrap .tel{
+  @apply text-sm text-primary
+}
+.info_wrap .info_link{
+  @apply  text-sm bg-primary text-center text-white hover:bg-primaryHover mt-3 p-1 rounded-lg
+}
