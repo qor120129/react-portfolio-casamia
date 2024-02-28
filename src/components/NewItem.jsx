@@ -52,6 +52,10 @@ const NewItem = ({ setOpen, isAuth }) => {
       slidesPerView={1}
       spaceBetween={16}
       breakpoints={{
+        350: {
+          slidesPerView: 2,
+          spaceBetween: 16,
+        },
         500: {
           slidesPerView: 2,
           spaceBetween: 16,

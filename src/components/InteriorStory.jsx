@@ -63,10 +63,11 @@ const InteriorStory = () => {
           <SwiperSlide
             key={item.id}
             onClick={() => updateStoryLook(item.id)}
+            className='border cursor-pointer'
           >
             <LoaderImg src={item.img} alt={item.title + item.subTitle + item.content} />
 
-            <div className='px-2 py-6 flex flex-col flex-1'>
+            <div className='px-4 py-6 flex flex-col flex-1'>
               <h3 className='text-lg font-bold truncate '>{item.title}</h3>
               <h4 className='text-sm py-3 truncate'>{item.subTitle}</h4>
               <p className='text-sm text-sub line-clamp-3'>{item.content}</p>

@@ -24,7 +24,7 @@ const BestItem = ({ setOpen, isAuth }) => {
   }
 
 
-  //NEW ITEM 데이터 가져오기
+  //Best ITEM 데이터 가져오기
   const getNewItems = async () => {
     try {
       const getBestList = await getDocs(collection(cloudStore, "/bestItems"))
@@ -40,12 +40,14 @@ const BestItem = ({ setOpen, isAuth }) => {
   }
 
   return (
-    <div className='grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(260px,_1fr))] gap-4' >
+    <div
+      className='grid grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-4'
+    >
       {bestItemList.map((item) => (
-        <div key={item.id}>
-          <div className='w-full'>
-            <LoaderImg src={item.img} alt={item.brand + item.title + item.price + ' 원'}/>
-          </div>
+        <div key={item.id} className='flex flex-col'>
+          {/* <div className='w-full'>
+          </div> */}
+          <LoaderImg src={item.img} alt={item.brand + item.title + item.price + ' 원'} />
           <div className='flex flex-col justify-between py-4 px-2 min-h-[145px] relative'>
             <h4>{item.brand}</h4>
             <h3 className='font-medium mt-1 truncate'>{item.title}</h3>

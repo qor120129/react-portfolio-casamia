@@ -5,7 +5,7 @@ const LoaderImg = ({src, alt}) => {
   const [isLoading, setIsLoading] = useState(true)
 
   return (
-    <div>
+    <>
       {isLoading && (
         <div className='bg-gray-50 w-full min-h-[250px] relative'>
           <Loader className={'w-20 z-50'} />
@@ -17,7 +17,7 @@ const LoaderImg = ({src, alt}) => {
         src={src}
         alt={alt}
       />
-    </div>
+    </>
   )
 }
 

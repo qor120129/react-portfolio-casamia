@@ -60,7 +60,7 @@ const Header = ({ auth, isAuth }) => {
         setScrollUp(true)
       }
     }, 200)
-    
+
     window.addEventListener('wheel', handleScrollY, { passive: false })
     window.addEventListener('scroll', handleScrollY)
     return () => {
@@ -138,13 +138,13 @@ const Header = ({ auth, isAuth }) => {
             <h1 className='font-[Rokkitt] text-4xl'>casamia</h1>
           </Link>
           <div className='flex items-center gap-4 text-sm'>
-            <Search placeholder={'검색어를 입력하세요'} />
+            <Search placeholder={'검색어를 입력하세요'}  />
             <Link to="/Cart">
               <CartIcon className={'w-6 h-6'} />
             </Link>
-            {isAuth
+            {isAuth             
               ?
-              <div ref={dropdown}  >
+              <div ref={dropdown} className={`max-sm:hidden`}>
                 <div
                   onClick={() => setOpen(!open)}
                   className=' w-10 h-10 cursor-pointer'
@@ -177,10 +177,10 @@ const Header = ({ auth, isAuth }) => {
                 </div>
               </div>
               :
-              <>
+              <div className='max-sm:hidden flex gap-4'>
                 <Link to="/login">로그인</Link>
                 <Link to="/join">회원가입</Link>
-              </>
+              </div>
             }
           </div>
         </div>
