@@ -49,7 +49,7 @@ const Banner = () => {
 
 
   return (
-    <section ref={bannerRef} className='relative h-[60vh] max-sm:h-[50vh] max-[380px]:h-[38vh] overflow-hidden'>
+    <section ref={bannerRef} className='relative h-[60vh]   overflow-hidden'>
       {bannerSlide.map((item, index) => (
         <div
           key={index}
@@ -66,13 +66,13 @@ const Banner = () => {
               min-[1920px]:w-full max-[1920px]:max-w-fit max-lg:h-full  
               '/>
           </div>
-          <div className='z-10 absolute top-[30%] left-1/2 -translate-x-1/2 text-center text-slate-50 max-[380px]:w-[70%]'>
+          <div className='z-10 absolute top-[30%] left-1/2 -translate-x-1/2 text-center text-slate-50 max-sm:w-[80%]'>
             <div className='font-[Rokkitt] sm:w-[80vw] w-[55vw] m-auto sm:text-5xl text-3xl max-[380px]:text-2xl'>
               {item.title}
             </div>
             <div className='text-lg mt-4 max-[380px]:text-base'>{item.subTitle}</div>
           </div>
-          <div className="flex justify-between absolute top-1/2 right-0 left-0 -translate-y-1/2 z-50">
+          <div className="flex justify-between absolute top-1/2 right-0 left-0 -translate-y-1/2 z-50 max-sm:hidden">
             <div onClick={() => { index === 0 ? setActiveImage(bannerSlide.length - 1) : setActiveImage(index - 1) }} className=' cursor-pointer text-slate-50/30 hover:text-slate-50/70'>
               <PrevIcon className="w-14 h-14" />
             </div>

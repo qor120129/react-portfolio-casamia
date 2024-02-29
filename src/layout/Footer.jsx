@@ -17,7 +17,7 @@ const Footer = () => {
         </Link>
         <div className='flex flex-wrap gap-y-6 text-[0.75rem] justify-between max-lg:gap-y-0 relative'>
           <div className='*:pr-6 flex flex-wrap max-w-[42rem] *:flex *:items-center text-sub'>
-            <ul className='text-main flex flex-wrap gap-x-6'>
+            <ul className='text-main flex flex-wrap gap-x-6 mb-1'>
               {footerNavigation.map(item => (
                 <li key={item.name} className='text-sm'>
                   <Link to={item.to}

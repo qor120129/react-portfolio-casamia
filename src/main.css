@@ -87,7 +87,6 @@ img {
 
 #mapPagination {
   @apply flex items-center justify-center gap-4 pt-4
-
 }
 
 #mapPagination .on {
@@ -95,18 +94,22 @@ img {
 }
 
 /*  MAP 인포윈도우 */
-.info_wrap{
+.info_wrap {
   @apply p-4 whitespace-nowrap truncate rounded-lg
 }
-.info_wrap .info_tt{
+
+.info_wrap .info_tt {
   @apply text-base
 }
-.info_wrap p{
+
+.info_wrap p {
   @apply text-sm text-sub
 }
-.info_wrap .tel{
+
+.info_wrap .tel {
   @apply text-sm text-primary
 }
-.info_wrap .info_link{
-  @apply  text-sm bg-primary text-center text-white hover:bg-primaryHover mt-3 p-1 rounded-lg
+
+.info_wrap .info_link {
+  @apply text-sm bg-primary text-center text-white hover:bg-primaryHover mt-3 p-1 rounded-lg
 }

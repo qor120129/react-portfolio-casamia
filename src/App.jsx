@@ -17,6 +17,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref, query, onValue, } from "firebase/database"
 import { ArrowUp } from 'assets/svgIcon/SvgIcon'
 import SubLayout from './layout/SubLayout'
+import { throttle } from 'lodash'
 
 
 function App() {
@@ -24,8 +25,19 @@ function App() {
   const [isAuth, setIsAuth] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [usersDB, setUsersDB] = useState([])
-  const [scrollTop, setScrollTop] = useState(false)
+  const [mobile, setMobile] = useState(false)
+  const [scrollBtn, setScrollBtn] = useState(false)
 
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      // mobile
+      setMobile(true);
+    } else {
+      // desktop
+      setMobile(false);
+    }
+  }, []);
 
   useEffect(() => {
     const userList = query(ref(database, 'users'))
@@ -45,13 +57,35 @@ function App() {
         setIsLoading(false)
       }
     })
+
   }, [])
 
+  useEffect(() => {
+    // Scroll 변경에 따라 btn 보여주기 변경
+    const showscrollToTopBtn = throttle((e) => {
+      e.preventDefault()
+
+      const scrollY = window.scrollY
+
+      if (scrollY > 600) {
+        setScrollBtn(true)
+      } else {
+        setScrollBtn(false)
+      }
+    }, 300)
+
+    window.addEventListener('scroll', showscrollToTopBtn)
+    return () => {
+      window.removeEventListener('scroll', showscrollToTopBtn)
+    }
+  }, [scrollY])
 
   // Scroll 상단이동
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
+      behavior: 'smooth'
+
     })
   }
 
@@ -59,7 +93,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout auth={auth} isAuth={isAuth} />,
+      element: <MainLayout auth={auth} isAuth={isAuth} mobile={mobile} />,
       children: [
         {
           path: '/',
@@ -98,9 +132,16 @@ function App() {
   return (
     <>
       <ToastContainer autoClose={1000} hideProgressBar={true} className={` absolute z-[99999]`} />
-      <div onClick={scrollToTop} className=' cursor-pointer'>
-        <ArrowUp className={'w-6 h-6'} />
+      <div
+        onClick={scrollToTop}
+        className={`fixed z-[999] cursor-pointer animate-opacity ${scrollBtn ? 'block opacity-1' : 'hidden opacity-0'} ${mobile ? 'bottom-16 right-4' : 'bottom-4 right-4'}`}
+      >
+        <div className=' bg-white rounded-full shadow drop-shadow p-2 border '>
+          <ArrowUp className={'w-5 h-5'} />
+        </div>
       </div>
+      {/* {scrollY > 600 &&
+      } */}
       {isLoading
         ? <Loader className={'w-20'} />
         : <RouterProvider router={router} />

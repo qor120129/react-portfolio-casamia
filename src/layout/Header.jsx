@@ -4,7 +4,7 @@ import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
 import Search from 'components/Search'
-import { CartIcon, UserIcon, NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
+import { CartIcon, LoginUserIcon, NextIcon, PrevIcon } from 'assets/svgIcon/SvgIcon'
 import { throttle } from 'lodash'
 
 const navigation = [
@@ -17,7 +17,7 @@ const navigation = [
   { name: '매장찾기', to: '/Store' },
 ]
 
-const Header = ({ auth, isAuth }) => {
+const Header = ({ auth, isAuth, mobile }) => {
   // const displayName = auth?.currentUser?.displayName
   const [open, setOpen] = useState(false)
   const [navScrollWidth, setNavScrollWidth] = useState(0)
@@ -34,8 +34,8 @@ const Header = ({ auth, isAuth }) => {
 
 
   useEffect(() => {
-    setNavScrollWidth(navScroll.current.scrollWidth)
-    setNavOffsetWidth(navScroll.current.offsetWidth)
+    setNavScrollWidth(navScroll?.current?.scrollWidth)
+    setNavOffsetWidth(navScroll?.current?.offsetWidth)
     window.addEventListener("resize", resize)
     return () => {
       window.removeEventListener("resize", resize)
@@ -132,17 +132,17 @@ const Header = ({ auth, isAuth }) => {
   return (
     // <header className={` ${scrollUp && !scrollTop ? '  top-0 left-0 right-0  -translate-y-[73px] last:*:py-4' : `${scrollTop ? 'translate-y-0' : '-top-50 fixed'} `} border-b z-[9999]  bg-white  transition duration-700 delay-150 relative `}>
     <header className='fixed top-0 left-0 right-0 z-[999] mb-[120px]'>
-      <nav className={`${scrollUp ? 'border-b ' : 'drop-shadow'} p-4 bg-white z-0 `}>
+      <nav className={`${scrollUp ? 'border-b ' : 'drop-shadow'} p-4 bg-white z-0 max-sm:py-2`}>
         <div className='max-w-[80rem] m-auto flex justify-between items-center relative'>
           <Link to="/">
-            <h1 className='font-[Rokkitt] text-4xl'>casamia</h1>
+            <h1 className='font-[Rokkitt] text-3xl sm:text-4xl'>casamia</h1>
           </Link>
           <div className='flex items-center gap-4 text-sm'>
-            <Search placeholder={'검색어를 입력하세요'}  />
+            <Search placeholder={'검색어를 입력하세요'} />
             <Link to="/Cart">
               <CartIcon className={'w-6 h-6'} />
             </Link>
-            {isAuth             
+            {isAuth
               ?
               <div ref={dropdown} className={`max-sm:hidden`}>
                 <div
@@ -155,7 +155,7 @@ const Header = ({ auth, isAuth }) => {
                       className=' w-10 h-10 rounded-full'
                     />
                     :
-                    <UserIcon fill='#CBCBCB' />
+                    <LoginUserIcon fill='#CBCBCB' />
                   }
                 </div>
                 <div
@@ -185,45 +185,47 @@ const Header = ({ auth, isAuth }) => {
           </div>
         </div>
       </nav>
-      <div className={`${scrollUp ? 'border-b drop-shadow translate-y-0' : '-translate-y-12'} absolute left-0 right-0 -z-[1] overflow-hidden bg-white -z-1 transition-all`}>
-        <nav
-          ref={navScroll}
-          onMouseOver={onMouseOver}
-          className={`${navScrollWidth > navOffsetWidth ? 'overflow-x-scroll scrollbar-hide ml-8' : ''} 
+      {!mobile &&
+        <div className={`${scrollUp ? 'border-b drop-shadow translate-y-0' : '-translate-y-12'} absolute left-0 right-0 -z-[1] overflow-hidden bg-white -z-1 transition-all`}>
+          <nav
+            ref={navScroll}
+            onMouseOver={onMouseOver}
+            className={`${navScrollWidth > navOffsetWidth ? 'overflow-x-scroll scrollbar-hide ml-8' : ''} 
           max-w-[80rem] m-auto flex cursor-pointer transition scroll-smooth px-4`}
-        >
-          {navigation.map((item, index) => (
-            <NavLink
-              key={index}
-              to={item.to}
-              className='hover:text-primary h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12  '
-            >
-              {item.name}
-            </NavLink>
-          ))
-          }
-        </nav>
+          >
+            {navigation.map((item, index) => (
+              <NavLink
+                key={index}
+                to={item.to}
+                className='hover:text-primary h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12  '
+              >
+                {item.name}
+              </NavLink>
+            ))
+            }
+          </nav>
 
-        {navScrollWidth > navOffsetWidth &&
-          <div className='*:absolute *:top-1/2 *:-translate-y-1/2 *:border-1  *:cursor-pointer  *:before:absolute *:before:inset-0 *:before:-top-1/3 *:before:-bottom-1/4 *:before:-right-full *:before:-left-full *:before:-z-[1]  *:before:from-transparent *:before:via-transparent *:before:via-10% *:before:to-white  *:before:to-50%  '>
-            {scrollBtn
-              ?
-              < div
-                className='relative right-2 before:bg-gradient-to-r '
-                onClick={() => navScrollbar('next')}
-              >
-                <NextIcon className={'w-8 h-8 p-1 bg-white rounded-full shadow drop-shadow '} />
-              </div>
-              :
-              <div
-                className='relative left-2 before:bg-gradient-to-l '
-                onClick={() => navScrollbar('prev')}
-              >
-                <PrevIcon className={'w-8 h-8 p-1 bg-white rounded-full shadow drop-shadow '} />
-              </div>}
-          </div>
-        }
-      </div>
+          {navScrollWidth > navOffsetWidth &&
+            <div className='*:absolute *:top-1/2 *:-translate-y-1/2 *:border-1  *:cursor-pointer  *:before:absolute *:before:inset-0 *:before:-top-1/3 *:before:-bottom-1/4 *:before:-right-full *:before:-left-full *:before:-z-[1]  *:before:from-transparent *:before:via-transparent *:before:via-10% *:before:to-white  *:before:to-50%  '>
+              {scrollBtn
+                ?
+                < div
+                  className='relative right-2 before:bg-gradient-to-r '
+                  onClick={() => navScrollbar('next')}
+                >
+                  <NextIcon className={'w-8 h-8 p-1 bg-white rounded-full shadow drop-shadow '} />
+                </div>
+                :
+                <div
+                  className='relative left-2 before:bg-gradient-to-l '
+                  onClick={() => navScrollbar('prev')}
+                >
+                  <PrevIcon className={'w-8 h-8 p-1 bg-white rounded-full shadow drop-shadow '} />
+                </div>}
+            </div>
+          }
+        </div>
+      }
     </header >
   )
 }
