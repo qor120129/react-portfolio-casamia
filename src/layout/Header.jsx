@@ -130,7 +130,6 @@ const Header = ({ auth, isAuth, mobile }) => {
 
 
   return (
-    // <header className={` ${scrollUp && !scrollTop ? '  top-0 left-0 right-0  -translate-y-[73px] last:*:py-4' : `${scrollTop ? 'translate-y-0' : '-top-50 fixed'} `} border-b z-[9999]  bg-white  transition duration-700 delay-150 relative `}>
     <header className='fixed top-0 left-0 right-0 z-[999] mb-[120px]'>
       <nav className={`${scrollUp ? 'border-b ' : 'drop-shadow'} p-4 bg-white z-0 max-sm:py-2`}>
         <div className='max-w-[80rem] m-auto flex justify-between items-center relative'>

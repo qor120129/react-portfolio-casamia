@@ -5,8 +5,8 @@ import { MenuIcon, HomeIcon, HomeActiveIcon, WishIcon, WishActiveIcon, UserIcon,
 const M_navigation = [
   { name: '카테고리', to: 'javascript:void(0)', icon: MenuIcon, activeIcon: WishActiveIcon },
   { name: '홈', to: '/', icon: HomeIcon, activeIcon: HomeActiveIcon },
-  { name: '찜', to: '/wish', icon: WishIcon, activeIcon: WishActiveIcon },
-  { name: '마이페이지', to: '/login', icon: UserIcon, activeIcon: UserActiveIcon },
+  { name: '찜', to: 'javascript:void(0)', icon: WishIcon, activeIcon: WishActiveIcon },
+  { name: '마이페이지', to: 'javascript:void(0)', icon: UserIcon, activeIcon: UserActiveIcon },
 ]
 
 const M_menu = () => {

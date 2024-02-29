@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
 
-const Map = () => {
+const Map = ({className}) => {
   return (
-    <div id="map" className=' w-[90%] '></div>
+    <div id="map" className={className}></div>
   )
 }
 

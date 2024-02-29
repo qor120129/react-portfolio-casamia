@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { SearchIcon } from '../assets/svgIcon/SvgIcon'
 
-const MapSearch = ({searchChange}) => {
+const MapSearch = ({searchChange, className}) => {
   const [search, setSearch] = useState('까사미아')
 
   const changeValue = (e) => {
@@ -13,7 +13,7 @@ const MapSearch = ({searchChange}) => {
     searchChange(search)
   }
   return (
-    <div className='p-12 w-[500px] box-border overflow-y-scroll' id='mapWrap'>
+    <div className={className} id='mapWrap'>
       <form onSubmit={onSubmit}>
         <div className='relative'>
           <label className="sr-only">

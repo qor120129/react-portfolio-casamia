@@ -109,7 +109,7 @@ function App() {
         },
         {
           path: '/Store',
-          element: <StorePage />,
+          element: <StorePage mobile={mobile} />,
         },
         {
           path: '/Login',
@@ -140,8 +140,6 @@ function App() {
           <ArrowUp className={'w-5 h-5'} />
         </div>
       </div>
-      {/* {scrollY > 600 &&
-      } */}
       {isLoading
         ? <Loader className={'w-20'} />
         : <RouterProvider router={router} />

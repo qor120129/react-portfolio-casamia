@@ -13,8 +13,7 @@ const MainLayout = ({ auth, isAuth, mobile }) => {
       <div className={`${mobile ? 'mt-[52px]' : 'max-sm:mt-[100px] mt-[120px]'} `}>
         <Outlet />
       </div >
-      {mobile && <M_menu />
-      }
+      {mobile && pathname !== '/Store' && <M_menu />}
       {pathname !== '/Store' && <Footer />}
     </>
   )

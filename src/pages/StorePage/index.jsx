@@ -3,7 +3,7 @@ import Map from 'components/Map'
 import MapSearch from 'components/MapSearch'
 import { toast } from 'react-toastify'
 
-const StorePage = () => {
+const StorePage = ({ mobile }) => {
   const [search, setSearch] = useState('까사미아')
 
 
@@ -99,11 +99,12 @@ const StorePage = () => {
           //   infowindow.close();
           // })
           kakao.maps.event.addListener(marker, 'click', function () {
+            infowindow.close();
             displayInfowindow(marker, places);
           })
           itemEl.onclick = function () {
             infowindow.close();
-            map.setCenter( new kakao.maps.LatLng(places.y, places.x))
+            map.setCenter(new kakao.maps.LatLng(places.y, places.x))
             displayInfowindow(marker, places, position);
           }
         })(marker, places[i])
@@ -236,9 +237,16 @@ const StorePage = () => {
 
 
   return (
-    <div className='flex h-[calc(100vh-120px)]'>
-      <MapSearch searchChange={searchChange} />
-      <Map />
+    <div
+      className={`flex max-sm:flex-col-reverse max-sm:h-[calc(100vh-110px)]  
+    ${mobile ? 'h-[calc(100vh-60px)]' : 'h-[calc(100vh-120px)]'}`}
+    >
+      <MapSearch
+        searchChange={searchChange}
+        className={`overflow-y-scroll  max-sm:w-full p-6 pb-4 h-[50%]
+      ${mobile ? 'h-[40%]' : 'p-12 w-[500px] box-border '}`}
+      />
+      <Map className={`max-sm:w-full  ${mobile ? 'w-full h-full' : 'h-full w-[90%]'}`} />
     </div>
   )
 }

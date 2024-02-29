@@ -48,13 +48,13 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-[calc(100vh-440px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full  sm:max-w-sm">
         <h2 className="mt-10 text-center text-3xl  leading-9 tracking-tight text-gray-900">
           회원 로그인
         </h2>
       </div>
-      <div className="my-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="my-10  mx-auto w-full max-w-sm">
         <form className="space-y-6" onSubmit={onSubmit} method="POST">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 opacity-80">
