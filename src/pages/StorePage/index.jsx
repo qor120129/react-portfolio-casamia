@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Map from 'components/Map'
 import MapSearch from 'components/MapSearch'
 import { toast } from 'react-toastify'
+import spriteImg from '@/assets/img/marker.png'
 
 const StorePage = ({ mobile }) => {
   const [search, setSearch] = useState('까사미아')
@@ -12,7 +13,8 @@ const StorePage = ({ mobile }) => {
 
     var container = document.getElementById('map'),
       option = {
-        center: new kakao.maps.LatLng(0, 0), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3 // 지도의 중심좌표
       }
     var ps = new kakao.maps.services.Places();
     var map = new kakao.maps.Map(container, option);
@@ -145,7 +147,7 @@ const StorePage = ({ mobile }) => {
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수
     function addMarker(position) {
       console.log(position)
-      var imageSrc = 'src/assets/img/marker.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+      var imageSrc = spriteImg, // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(30, 30),  // 마커 이미지의 크기
         imgOptions = {
           spriteSize: new kakao.maps.Size(30, 30), // 스프라이트 이미지의 크기
@@ -243,7 +245,7 @@ const StorePage = ({ mobile }) => {
     >
       <MapSearch
         searchChange={searchChange}
-        className={`overflow-y-scroll  max-sm:w-full p-6 pb-4 h-[50%]
+        className={`overflow-y-scroll  max-sm:w-full p-6 pb-4 max-sm:h-[50%]
       ${mobile ? 'h-[40%]' : 'p-12 w-[500px] box-border '}`}
       />
       <Map className={`max-sm:w-full  ${mobile ? 'w-full h-full' : 'h-full w-[90%]'}`} />
