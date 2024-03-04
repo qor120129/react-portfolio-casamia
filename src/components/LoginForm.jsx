@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { app } from 'firebaseApp'
 
-const LoginForm = () => {
+const LoginForm = ({ mobile }) => {
   // const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,14 +24,14 @@ const LoginForm = () => {
 
     } catch (error) {
       if (error.message.match('auth/invalid-credential')) {
-        toast.error('이메일 또는 비밀번호를 확인해 주세요 ',{
+        toast.error('이메일 또는 비밀번호를 확인해 주세요 ', {
           position: "top-center"
-        }) 
+        })
       }
       if (error.message.match('to many failed')) {
-        toast.error('여러 번의 로그인 시도 실패로 나중에 다시 시도할 수 있습니다.',{
+        toast.error('여러 번의 로그인 시도 실패로 나중에 다시 시도할 수 있습니다.', {
           position: "top-center"
-        }) 
+        })
       }
     }
   }
@@ -48,19 +48,19 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-440px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full  sm:max-w-sm">
-        <h2 className="mt-10 text-center text-3xl  leading-9 tracking-tight text-gray-900">
+    <div className={`${mobile ? 'max-sm:min-h-[calc(100vh-100px)]' : ' min-h-[calc(100vh-440px)]'} flex flex-1 flex-col justify-center px-6 py-12 lg:px-8`}>
+      <div className="mx-auto">
+        <h2 className="text-center text-3xl  leading-9 tracking-tight text-gray-900 max-sm:text-2xl">
           회원 로그인
         </h2>
       </div>
-      <div className="my-10  mx-auto w-full max-w-sm">
-        <form className="space-y-6" onSubmit={onSubmit} method="POST">
+      <div className="my-10 mx-auto max-w-sm w-[80%]">
+        <form className={`space-y-6`} onSubmit={onSubmit} method="POST">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 opacity-80">
+            <label htmlFor="email" className='form_label'>
               아이디(이메일)
             </label>
-            <div className="mt-2">
+            <div className="mt-1 sm:mt-2">
               <input
                 onChange={changeValue}
                 id="email"
@@ -68,18 +68,19 @@ const LoginForm = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-4 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-8"
+                className={`form_input`}
+
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 opacity-80">
+              <label htmlFor="password" className='form_label'>
                 비밀번호
               </label>
             </div>
-            <div className="mt-2">
+            <div className="mt-1 sm:mt-2">
               <input
                 onChange={changeValue}
                 id="password"
@@ -87,7 +88,8 @@ const LoginForm = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-4 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-8"
+                className={`form_input`}
+
               />
             </div>
           </div>
@@ -95,14 +97,14 @@ const LoginForm = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-primary  px-3 py-1.5 text-sm font-semibold leading-8 text-white shadow-sm hover:bg-primaryHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
+              className="flex w-full justify-center rounded-md bg-primary  px-3 py-1.5 text-sm font-semibold leading-8 text-white shadow-sm hover:bg-primaryHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-6"
             >
               로그인
             </button>
           </div>
-          <div className='flex items-center justify-center gap-4'>
-            <Link to='/join' className='flex justify-end text-sm text-center hover:text-primary'>아이디 / 비밀번호 찾기</Link>
-            <Link to='/join' className='flex justify-end text-sm text-center hover:text-primary'>회원가입</Link>
+          <div className='flex text-sm items-center justify-center gap-4  max-sm:text-[12px] '>
+            <Link to='/join' className='hover:text-primary'>아이디 / 비밀번호 찾기</Link>
+            <Link to='/join' className='hover:text-primary'>회원가입</Link>
           </div>
         </form>
       </div>

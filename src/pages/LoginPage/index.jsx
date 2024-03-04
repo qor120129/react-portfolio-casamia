@@ -1,9 +1,9 @@
 import React from 'react'
 import LoginForm from 'components/LoginForm';
 
-const LoginPage = () => {
+const LoginPage = ({mobile}) => {
   return (
-    <LoginForm />
+    <LoginForm mobile={mobile} />
   )
 }
 

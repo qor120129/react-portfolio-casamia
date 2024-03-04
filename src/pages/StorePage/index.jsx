@@ -240,13 +240,13 @@ const StorePage = ({ mobile }) => {
 
   return (
     <div
-      className={`flex max-sm:flex-col-reverse max-sm:h-[calc(100vh-110px)]  
-    ${mobile ? 'h-[calc(100vh-60px)]' : 'h-[calc(100vh-120px)]'}`}
+      className={`flex max-sm:flex-col-reverse  
+    ${mobile ? 'h-[calc(100vh-60px)]' : 'h-[calc(100vh-120px)] max-sm:h-[calc(100vh-110px)] ' }`}
     >
       <MapSearch
         searchChange={searchChange}
-        className={`overflow-y-scroll  max-sm:w-full p-6 pb-4 max-sm:h-[50%]
-      ${mobile ? 'h-[40%]' : 'p-12 w-[500px] box-border '}`}
+        className={`overflow-y-scroll  max-sm:w-full p-6 pb-4
+      ${mobile ? 'h-[40%]' : 'max-sm:h-[50%] p-12 w-[500px] box-border '}`}
       />
       <Map className={`max-sm:w-full  ${mobile ? 'w-full h-full' : 'h-full w-[90%]'}`} />
     </div>

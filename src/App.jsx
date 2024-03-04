@@ -113,11 +113,11 @@ function App() {
         },
         {
           path: '/Login',
-          element: <LoginPage />,
+          element: <LoginPage mobile={mobile} />,
         },
         {
           path: '/Join',
-          element: <JoinPage usersDB={usersDB} />,
+          element: <JoinPage usersDB={usersDB} mobile={mobile} />,
         },
         {
           path: '/Cart',

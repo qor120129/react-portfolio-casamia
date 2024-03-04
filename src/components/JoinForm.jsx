@@ -6,7 +6,7 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase
 import { Link, useNavigate } from 'react-router-dom'
 import { ref, child, get, set, push, query, onValue, } from "firebase/database"
 
-const JoinForm = ({ usersDB }) => {
+const JoinForm = ({ usersDB, mobile }) => {
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -94,19 +94,20 @@ const JoinForm = ({ usersDB }) => {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-440px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-3xl  leading-9 tracking-tight text-gray-900">
+    <div className={`${mobile ? 'max-sm:min-h-[calc(100vh-100px)]' : ' min-h-[calc(100vh-440px)]'} flex flex-1 flex-col justify-center px-6 py-12 lg:px-8`}>
+      <div className="mx-auto">
+        <h2 className="text-center text-3xl leading-9 tracking-tight text-gray-900 max-sm:text-2xl">
           회원 가입
         </h2>
       </div>
-      <div className="my-10 mx-auto  w-full  max-w-sm">
-        <form className="space-y-6" onSubmit={onSubmit} method="POST">
+      <div
+        className="my-10 mx-auto max-w-sm w-[80%]">
+        <form className={`${mobile ? 'space-y-4' : 'space-y-6'} `} onSubmit={onSubmit} method="POST">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 opacity-80">
+            <label htmlFor="email" className='form_label'>
               아이디(이메일)
             </label>
-            <div className="mt-2">
+            <div className="mt-1 sm:mt-2">
               <input
                 onChange={changeValue}
                 id="email"
@@ -114,18 +115,18 @@ const JoinForm = ({ usersDB }) => {
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-4 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-8"
+                className={`form_input`}
               />
             </div>
           </div>
           {error.match('이메일') && < ErrorMsg error={error} />}
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 opacity-80">
+              <label htmlFor="password" className='form_label'>
                 비밀번호
               </label>
             </div>
-            <div className="mt-2">
+            <div className="mt-1 sm:mt-2">
               <input
                 onChange={changeValue}
                 id="password"
@@ -133,18 +134,18 @@ const JoinForm = ({ usersDB }) => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-4 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-8"
+                className={`form_input`}
               />
             </div>
           </div>
           {error.match('비밀번호 확인') && <ErrorMsg error={error} />}
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="passwordConfirm" className="block text-sm font-medium leading-6 opacity-80">
+              <label htmlFor="passwordConfirm" className='form_label'>
                 비밀번호 확인
               </label>
             </div>
-            <div className="mt-2">
+            <div className="mt-1 sm:mt-2">
               <input
                 onChange={changeValue}
                 id="passwordConfirm"
@@ -152,7 +153,7 @@ const JoinForm = ({ usersDB }) => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset p-4 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-8"
+                className={`form_input`}
               />
             </div>
           </div>
@@ -160,13 +161,14 @@ const JoinForm = ({ usersDB }) => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-primary  px-3 py-1.5 text-sm font-semibold leading-8 text-white shadow-sm hover:bg-primaryHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
+              className="flex w-full justify-center rounded-md bg-primary px-3 py-1 text-sm font-semibold leading-8 text-white shadow-sm hover:bg-primaryHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-6 "
             >
               회원가입
             </button>
           </div>
-          <div className='text-sm text-center'>이미 아이디가 있으신가요?
-            <Link to='/Login' className='ml-2 underline underline-offset-2 hover:text-primary'>로그인 하기</Link>
+          <div className='text-sm text-center max-sm:text-[12px]'>
+            이미 아이디가 있으신가요?
+            <Link to='/Login' className='ml-2 underline underline-offset-2 hover:text-primary '>로그인 하기</Link>
           </div>
         </form>
       </div>
