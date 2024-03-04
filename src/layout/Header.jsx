@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
@@ -17,7 +17,7 @@ const navigation = [
   { name: '매장찾기', to: '/Store' },
 ]
 
-const Header = ({ auth, isAuth, mobile }) => {
+const Header = ({ auth, isAuth, mobile, pathname }) => {
   // const displayName = auth?.currentUser?.displayName
   const [open, setOpen] = useState(false)
   const [navScrollWidth, setNavScrollWidth] = useState(0)
@@ -29,6 +29,7 @@ const Header = ({ auth, isAuth, mobile }) => {
 
   const dropdown = useRef()
   const navScroll = useRef()
+  const navigate = useNavigate();
 
   clickOutside(dropdown, () => setOpen(false))
 
@@ -127,14 +128,20 @@ const Header = ({ auth, isAuth, mobile }) => {
       navScrollbar('next')
     }
   }
-
+  const goBack = () => {
+    navigate(-1)
+  }
 
   return (
     <header className='fixed top-0 left-0 right-0 z-[999] mb-[120px]'>
       <nav className={`${scrollUp ? 'border-b ' : 'drop-shadow'} p-4 bg-white z-0 max-sm:py-2`}>
         <div className='max-w-[80rem] m-auto flex justify-between items-center relative'>
           <Link to="/">
-            <h1 className='font-[Rokkitt] text-3xl sm:text-4xl'>casamia</h1>
+            {mobile && pathname !== '/'
+              ?
+              <PrevIcon className={`w-6 h-6 my-[6px]`} onClick={goBack} />
+              :
+              <h1 className='font-[Rokkitt] text-3xl sm:text-4xl'>casamia</h1>}
           </Link>
           <div className='flex items-center gap-4 text-sm'>
             <Search placeholder={'검색어를 입력하세요'} />

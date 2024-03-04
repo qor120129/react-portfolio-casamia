@@ -1,13 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import brand1 from '@/assets/img/brand1.jpg'
+import brand2 from '@/assets/img/brand2.jpg'
+import brand3 from '@/assets/img/brand3.jpg'
+import brand4 from '@/assets/img/brand4.jpg'
+import brand5 from '@/assets/img/brand5.jpg'
+import brand6 from '@/assets/img/brand6.jpg'
 
 const backgroundImage = [
-  { img: 'src/assets/img/brand1.jpg', name: 'casamia' },
-  { img: 'src/assets/img/brand2.jpg', name: 'campo' },
-  { img: 'src/assets/img/brand3.jpg', name: 'urquiola' },
-  { img: 'src/assets/img/brand4.jpg', name: 'onion' },
-  { img: 'src/assets/img/brand5.jpg', name: 'lamaison' },
-  { img: 'src/assets/img/brand6.jpg', name: 'mk' },
+  { img: brand1, name: 'casamia' },
+  { img: brand2, name: 'campo' },
+  { img: brand3, name: 'urquiola' },
+  { img: brand4, name: 'onion' },
+  { img: brand5, name: 'lamaison' },
+  { img: brand6, name: 'mk' },
 ]
 const Brand = () => {
   return (

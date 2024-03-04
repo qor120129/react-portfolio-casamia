@@ -9,7 +9,7 @@ const MainLayout = ({ auth, isAuth, mobile }) => {
 
   return (
     <>
-      <Header auth={auth} isAuth={isAuth} mobile={mobile} />
+      <Header auth={auth} isAuth={isAuth} mobile={mobile} pathname={pathname}/>
       <div className={`${mobile ? 'mt-[52px]' : 'max-sm:mt-[100px] mt-[120px]'} `}>
         <Outlet />
       </div >
