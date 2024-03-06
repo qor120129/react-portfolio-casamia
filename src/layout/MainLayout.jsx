@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from 'layout/Header'
 import Footer from 'layout/Footer'
-import M_menu from '../components/M_menu'
+import M_menu from 'components/M_menu'
 
 const MainLayout = ({ auth, isAuth, mobile }) => {
   const { pathname } = useLocation()
@@ -13,7 +13,7 @@ const MainLayout = ({ auth, isAuth, mobile }) => {
       <div className={`${mobile ? 'mt-[52px]' : 'max-sm:mt-[100px] mt-[120px]'} `}>
         <Outlet />
       </div >
-      {mobile && pathname !== '/Store' && <M_menu />}
+      {mobile && pathname === '/' && <M_menu />}
       {pathname !== '/Store' && <Footer />}
     </>
   )

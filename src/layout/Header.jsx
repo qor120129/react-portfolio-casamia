@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { getAuth, signOut } from 'firebase/auth'
+import { signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import clickOutside from '@/hooks/clickOutside'
 import Search from 'components/Search'
@@ -129,28 +129,35 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
     }
   }
   const goBack = () => {
+    console.log('d')
     navigate(-1)
   }
+
+
 
   return (
     <header className='fixed top-0 left-0 right-0 z-[999] mb-[120px]'>
       <nav className={`${scrollUp ? 'border-b ' : 'drop-shadow'} p-4 bg-white z-0 max-sm:py-2`}>
         <div className='max-w-[80rem] m-auto flex justify-between items-center relative'>
-          <Link to="/">
-            {mobile && pathname !== '/'
-              ?
-              <PrevIcon className={`w-6 h-6 my-[6px]`} onClick={goBack} />
-              :
-              <h1 className='font-[Rokkitt] text-3xl sm:text-4xl'>casamia</h1>}
-          </Link>
+          {mobile && pathname !== '/'
+            ?
+            <button  onClick={goBack}>
+
+              <PrevIcon className={`w-6 h-6 my-[6px]`} />
+            </button>
+            :
+            <Link to="/">
+              <h1 className='font-[Rokkitt] text-3xl sm:text-4xl'>casamia</h1>
+            </Link>
+          }
           <div className='flex items-center gap-4 text-sm'>
             <Search placeholder={'검색어를 입력하세요'} />
             <Link to="/Cart">
               <CartIcon className={'w-6 h-6'} />
             </Link>
-            {isAuth
+            {isAuth && !mobile
               ?
-              <div ref={dropdown} className={`max-sm:hidden`}>
+              <div ref={dropdown} className='flex gap-4'>
                 <div
                   onClick={() => setOpen(!open)}
                   className=' w-10 h-10 cursor-pointer'
@@ -183,9 +190,9 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
                 </div>
               </div>
               :
-              <div className='max-sm:hidden flex gap-4'>
+              <div className={`flex gap-4 ${mobile ? 'hidden' : ''}`}>
                 <Link to="/login">로그인</Link>
-                <Link to="/join">회원가입</Link>
+                <Link to="/join" className='max-sm:hidden '>회원가입</Link>
               </div>
             }
           </div>
@@ -210,7 +217,6 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
             ))
             }
           </nav>
-
           {navScrollWidth > navOffsetWidth &&
             <div className='*:absolute *:top-1/2 *:-translate-y-1/2 *:border-1  *:cursor-pointer  *:before:absolute *:before:inset-0 *:before:-top-1/3 *:before:-bottom-1/4 *:before:-right-full *:before:-left-full *:before:-z-[1]  *:before:from-transparent *:before:via-transparent *:before:via-10% *:before:to-white  *:before:to-50%  '>
               {scrollBtn

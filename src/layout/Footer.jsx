@@ -10,7 +10,7 @@ const footerNavigation = [
 
 const Footer = () => {
   return (
-    <footer className='border-t py-12'>
+    <footer className='border-t py-12 max-sm:py-6'>
       <div className='px-4 max-w-[80rem] m-auto'>
         <Link to="/">
           <h1 className='font-[Rokkitt] text-main text-3xl pb-3'>casamia</h1>
