@@ -10,6 +10,9 @@ const LoginForm = ({ mobile }) => {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
+
+
+
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -19,8 +22,12 @@ const LoginForm = ({ mobile }) => {
       toast.success("로그인성공!", {
         position: "top-center"
       });
-
-      navigate("/")
+      
+      if (mobile) {
+        navigate("/Mypage")
+      } else{
+        navigate("/")
+      }
 
     } catch (error) {
       if (error.message.match('auth/invalid-credential')) {

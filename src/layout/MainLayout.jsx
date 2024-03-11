@@ -1,19 +1,20 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, ScrollRestoration, useLocation, useParams } from 'react-router-dom'
 import Header from 'layout/Header'
 import Footer from 'layout/Footer'
 import M_menu from 'components/M_menu'
+import ScrollTop from 'components/scrollTop'
 
 const MainLayout = ({ auth, isAuth, mobile }) => {
   const { pathname } = useLocation()
-  console.log('adfad', pathname)
 
   return (
     <>
-      <Header auth={auth} isAuth={isAuth} mobile={mobile} pathname={pathname}/>
+      <Header auth={auth} isAuth={isAuth} mobile={mobile} pathname={pathname} />
       <div className={`${mobile ? 'mt-[52px]' : 'max-sm:mt-[100px] mt-[120px]'} `}>
+        <ScrollRestoration />
         <Outlet />
       </div >
-      {mobile && pathname === '/' && <M_menu />}
+      {mobile && (pathname === '/' || pathname === '/Mypage' || pathname === '/CategoryMenu') && <M_menu />}
       {pathname !== '/Store' && <Footer />}
     </>
   )

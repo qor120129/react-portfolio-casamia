@@ -29,7 +29,7 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
 
   const dropdown = useRef()
   const navScroll = useRef()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   clickOutside(dropdown, () => setOpen(false))
 
@@ -129,7 +129,6 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
     }
   }
   const goBack = () => {
-    console.log('d')
     navigate(-1)
   }
 
@@ -141,7 +140,7 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
         <div className='max-w-[80rem] m-auto flex justify-between items-center relative'>
           {mobile && pathname !== '/'
             ?
-            <button  onClick={goBack}>
+            <button onClick={goBack}>
 
               <PrevIcon className={`w-6 h-6 my-[6px]`} />
             </button>
@@ -160,7 +159,7 @@ const Header = ({ auth, isAuth, mobile, pathname }) => {
               <div ref={dropdown} className='flex gap-4'>
                 <div
                   onClick={() => setOpen(!open)}
-                  className=' w-10 h-10 cursor-pointer'
+                  className='w-10 h-10 cursor-pointer'
                 >
                   {auth?.currentUser?.photoURL
                     ?

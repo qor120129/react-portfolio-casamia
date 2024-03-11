@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, Routes, useLocation } from 'react-router-dom'
 import { MenuIcon, HomeIcon, HomeActiveIcon, WishIcon, WishActiveIcon, UserIcon, UserActiveIcon } from '../assets/svgIcon/SvgIcon'
-import CategoryMenu from '@/components/CategoryMenu'
+import CategoryMenu from 'components/CategoryMenu'
 
 const M_navigation = [
-  { name: '카테고리', to: 'javascript:void(0)', icon: MenuIcon, activeIcon: MenuIcon, },
+  { name: '카테고리', to: '/CategoryMenu', icon: MenuIcon, activeIcon: MenuIcon, },
   { name: '홈', to: '/', icon: HomeIcon, activeIcon: HomeActiveIcon, },
   // { name: '스토어', to: '/', icon: HomeIcon, activeIcon: HomeActiveIcon, },
   { name: '찜', to: 'javascript:void(0)', icon: WishIcon, activeIcon: WishActiveIcon, },
-  { name: '마이페이지', to: 'javascript:void(0)', icon: UserIcon, activeIcon: UserActiveIcon, },
+  { name: '마이페이지', to: '/Mypage', icon: UserIcon, activeIcon: UserActiveIcon, },
 ]
 
 const M_menu = () => {
   const [first, setfirst] = useState(false)
   const [slideOpen, setSlideOpen] = useState(false)
-  const [isActiveName, setIsActiveName] = useState('홈')
+  const [isActiveName, setIsActiveName] = useState('/')
   const { pathname } = useLocation()
 
   useEffect(() => {
-    // onClick
-  }, [])
+    setIsActiveName(pathname)
+  }, [pathname])
 
   const onClick = (item) => {
     setIsActiveName(item)
-
-    if (item === '카테고리') {
+    if (item === 'CategoryMenu') {
       setSlideOpen(true)
     } else {
       setSlideOpen(false)
@@ -37,8 +36,8 @@ const M_menu = () => {
           <NavLink
             key={index}
             to={item.to}
-            onClick={() => onClick(item.name)}
-            className={`py-2 w-[25%] ${isActiveName === item.name ? 'text-primary' : ''}`}
+            onClick={() => onClick(item.to)}
+            className={`py-2 w-[25%] ${isActiveName === item.to ? 'text-primary' : ''}`}
           >
             <div className='flex flex-col items-center justify-center text-[11px]'>
               {isActiveName === item.name && pathname === item.to

@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,8 +16,10 @@ import { app, database } from 'firebaseApp'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref, query, onValue, } from "firebase/database"
 import { ArrowUp } from 'assets/svgIcon/SvgIcon'
-import SubLayout from './layout/SubLayout'
 import { throttle } from 'lodash'
+import Mypage from 'components/Mypage'
+import CategoryMenu from 'components/CategoryMenu'
+// import ScrollTop from 'components/scrollTop'
 
 
 function App() {
@@ -27,6 +29,17 @@ function App() {
   const [usersDB, setUsersDB] = useState([])
   const [mobile, setMobile] = useState(false)
   const [scrollBtn, setScrollBtn] = useState(false)
+  // const { pathname } = useLocation()
+
+  // console.log('pathname', pathname)
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0
+  //   })
+  // }, [pathname])
+  useEffect(() => {
+  }, [])
+  // ScrollTop()
 
   useEffect(() => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -123,6 +136,14 @@ function App() {
           path: '/Cart',
           element: <CartPage />,
         },
+        {
+          path: '/CategoryMenu',
+          element: <CategoryMenu />,
+        },
+        {
+          path: '/Mypage',
+          element: <Mypage auth={auth} isAuth={isAuth} mobile={mobile} />,
+        },
       ],
       errorElement: <NotFound />,
     },
@@ -141,8 +162,15 @@ function App() {
         </div>
       </div>
       {isLoading
-        ? <Loader className={'w-20'} />
-        : <RouterProvider router={router} />
+        ?
+        <Loader className={'w-20'} />
+        :
+        <>
+
+
+            {/* <ScrollTop /> */}
+          <RouterProvider router={router}/>
+        </>
       }
     </>
   )

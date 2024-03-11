@@ -12,17 +12,15 @@ const category = [
 ]
 
 
-const CategoryMenu = ({ setSlideOpen, slideOpen, setIsActiveName }) => {
+const CategoryMenu = () => {
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 bg-white z-[998]">
-      <div className="mt-[53px] p-4 flex flex-col flex-1 h-[calc(100vh-105px)] justify-between">
+      <div className="mt-[53px] p-6 flex flex-col flex-1 h-[calc(100vh-105px)] justify-between">
         <ul>
           {category.map((item, index) => (
-            <li>
+            <li key={index}>
               <NavLink
-                key={index}
                 to={item.to}
-                // onClick={() => { setSlideOpen(!slideOpen), setIsActiveName('홈') }}
                 className='hover:text-primary h-12 w-auto flex flex-shrink-0 items-center justify-start text-sm font-medium pr-12  '
               >
                 {item.name}
