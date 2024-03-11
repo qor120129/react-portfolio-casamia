@@ -2,7 +2,6 @@ import { Outlet, ScrollRestoration, useLocation, useParams } from 'react-router-
 import Header from 'layout/Header'
 import Footer from 'layout/Footer'
 import M_menu from 'components/M_menu'
-import ScrollTop from 'components/scrollTop'
 
 const MainLayout = ({ auth, isAuth, mobile }) => {
   const { pathname } = useLocation()

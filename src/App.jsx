@@ -152,7 +152,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer autoClose={1000} hideProgressBar={true} className={` absolute z-[99999]`} />
+      <ToastContainer autoClose={1000} hideProgressBar={true} className={` fixed  z-[99999] p-4`} />
       <div
         onClick={scrollToTop}
         className={`fixed z-[999] cursor-pointer animate-opacity ${scrollBtn ? 'block opacity-1' : 'hidden opacity-0'} ${mobile ? 'bottom-16 right-4' : 'bottom-4 right-4'}`}

@@ -1,9 +1,25 @@
 import React from 'react'
 import { NextIcon, PrevIcon } from '../assets/svgIcon/SvgIcon'
 import { Link } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
+import { toast } from 'react-toastify'
 
 const Mypage = ({ auth, isAuth, mobile }) => {
-  console.log('auth', isAuth)
+
+  const onSignOut = async () => {
+    if (isAuth) {
+      try {
+        await signOut(auth)
+        toast.success('로그아웃 되었습니다.', {
+          position: "top-center",
+        })
+      } catch (error) {
+        console.log(error)
+        toast.error(err.message)
+      }
+    }
+  }
+
   return (
     <section className='bg-gray-100 flex flex-col gap-2'>
       {isAuth
@@ -15,8 +31,8 @@ const Mypage = ({ auth, isAuth, mobile }) => {
             </Link>
             <NextIcon className={`w-4 h-4`} />
           </div>
-          <div 
-          className='text-sm flex py-6 justify-between bg-primary bg-opacity-75 rounded-md *:flex *:flex-col *:items-center divide-x divide-slate-200  mt-6 *:flex-1 *:text-white'>
+          <div
+            className='text-sm flex py-6 justify-between bg-primary bg-opacity-75 rounded-md *:flex *:flex-col *:items-center divide-x divide-slate-200  mt-6 *:flex-1 *:text-white'>
             <Link>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
@@ -65,8 +81,8 @@ const Mypage = ({ auth, isAuth, mobile }) => {
           <Link>FAQ</Link>
           <Link>고객센터</Link>
         </li>
-        <li className='last:pb-0'>
-          <Link>로그아웃</Link>
+        <li className='last:pb-0' onClick={onSignOut}>
+          <div >로그아웃</div>
         </li>
       </ul>
     </section>
